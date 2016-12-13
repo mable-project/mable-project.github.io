@@ -524,7 +524,8 @@ body {
   clear: both;
 }
 .article-date {
-  float: left;
+  text-align: center;
+  font-weight: normal;
 }
 .article-date:before {
   font-family: "FontAwesome";
