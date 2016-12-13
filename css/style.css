@@ -510,6 +510,11 @@ body {
 .article-inner {
   overflow: hidden;
 }
+.article-meta {
+  text-align: center;
+  font-size: 0.9em;
+  margin: 1.5em 0 1em 0;
+}
 .article-meta:before,
 .article-meta:after {
   content: "";
@@ -539,6 +544,7 @@ body {
   margin: 0 12px 1em;
 }
 .article-header {
+  text-align: center;
   padding: 20px 20px 0;
 }
 .article-title {
