@@ -521,6 +521,10 @@ body {
 .article-date {
   float: left;
 }
+.article-date:before {
+  font-family: "FontAwesome";
+  content: "\f073";
+}
 .article-category {
   float: left;
   line-height: 1em;
