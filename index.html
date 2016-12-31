@@ -186,6 +186,53 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-2017-is-comming"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/01/01/2017-is-comming/">2017 is comming</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/01/01/2017-is-comming/" class="article-date">
+	  <time datetime="2016-12-31T15:00:00.000Z" itemprop="datePublished">2017-01-01</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Happy new year!</p>
+<p>We will hope that 2017 is Mable’s birth year.</p>
+<h1 id="Projection-Mapping-Labs-for-Mable"><a href="#Projection-Mapping-Labs-for-Mable" class="headerlink" title="Projection Mapping Labs for Mable"></a>Projection Mapping Labs for Mable</h1><p>At the end of last year, we have experimented for checking projected animation on Mable.<br>It project street vector data (SVG) with animation using <a href="http://bchanx.com/animated-gameboy-in-css" target="_blank" rel="external">CSS3 animation</a> and <a href="https://d3js.org/" target="_blank" rel="external">D3.js</a>.</p>
+<p><img src="/images/201701/projection-test.jpg" alt="Projection Mapping on Mable"></p>
+<p>We use awesome projector to project on a table.<br>It is <a href="http://www.sony.com/electronics/projector/lspx-p1" target="_blank" rel="external">SONY LSPX-P1</a> as Portable Ultra Short Throw Projector.</p>
+<iframe style="width:100%;" src="https://www.youtube.com/embed/4LBPKkRf2MU" frameborder="0" allowfullscreen></iframe>
+
+<p>This animation make the street lines longer slowly.<br>Then it looks like putting light into streets.<br>Let’s play the video!<br>However you should turn off the sound because it contains our voice..</p>
+<p><video src="images/201701/projection-test.mp4" controls></video><br><span class="caption">Generated light streets!</span></p>
+<h1 id="CSS-animation-tricks"><a href="#CSS-animation-tricks" class="headerlink" title="CSS animation tricks"></a>CSS animation tricks</h1><p>We love CSS animation tricks.<br>We use tricks with <code>stroke-dashoffset</code> and <code>stroke-dasharray</code> to animate street lines.<br>Please see the below codes as reference.</p>
+<h5 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h5><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">path</span> &#123;</div><div class="line">  <span class="attribute">stroke-dashoffset</span>: <span class="number">500</span>;</div><div class="line">  <span class="attribute">stroke-dasharray</span>: <span class="number">500</span>;</div><div class="line">  <span class="attribute">stroke-linecap</span>: round;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">map.selectAll(<span class="string">'path'</span>)</div><div class="line">  .data(json.features)</div><div class="line">  .enter()</div><div class="line">  .append(<span class="string">'path'</span>)</div><div class="line">  .attr(<span class="string">'d'</span>, path)</div><div class="line">  .attr(<span class="string">"fill"</span>, <span class="string">"rgba(0,0,0,0)"</span>)</div><div class="line">  .attr(<span class="string">"stroke"</span>,<span class="string">"rgba(255,255,255,1)"</span> )</div><div class="line">  .transition()</div><div class="line">  .delay(<span class="number">300</span>)</div><div class="line">  .duration(<span class="number">100000</span>)</div><div class="line">  .style(<span class="string">'stroke-dashoffset'</span>, <span class="number">0</span>)</div><div class="line">  .style(<span class="string">'stroke-opacity'</span>, <span class="number">1</span>);</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-what-is-mable"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -254,7 +301,7 @@
   <div class="container">
       <div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">&copy; 2016 - 2016 Mable</p>
+	      <p id="copyRightEn">&copy; 2016 - 2017 Mable</p>
 	      <!--<p id="copyRightCn">Yusuke Nunokawa, Yuta Akasaki hold copyright</p>-->
         <p>Documentation and all images licensed under CC BY-SA 4.0.</p>
 	</div>
@@ -395,7 +442,7 @@ ga('send', 'pageview');
             Mable
           </div>
           <div class="panel-body">
-            Copyright © 2016 Yusuke Nunokawa, Yuta Akasaki All Rights Reserved.
+            Copyright © 2017 Yusuke Nunokawa, Yuta Akasaki All Rights Reserved.
           </div>
         </div>
       </div>
