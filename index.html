@@ -1,602 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  
-  <title>Mable</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  
-  
-  
-  <meta name="description" content="Making interface and experience on a table top with OpenStreetMap.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mable">
-<meta property="og:url" content="https://mable-project.github.io/index.html">
-<meta property="og:site_name" content="Mable">
-<meta property="og:description" content="Making interface and experience on a table top with OpenStreetMap.">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mable">
-<meta name="twitter:description" content="Making interface and experience on a table top with OpenStreetMap.">
-  
-    <link rel="alternate" href="/atom.xml" title="Mable" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/icon.png">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
+    <title>Mable</title>
 
-  
-    <link rel="stylesheet" href="/css/home.css" >
-  
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 
-  
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="vendor/device-mockups/device-mockups.min.css">
+
+    <!-- Theme CSS -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
 
-<body>
-  
-    <header id="header">
-  <!-- 
-    <div id="banner"></div>
-    <div id="header-outer" class="outer">
-      <div id="header-title" class="inner">
-        <h1 id="logo-wrap">
-          <a href="/" id="logo">Mable</a>
-        </h1>
-        
-          <h2 id="subtitle-wrap">
-            <a href="/" id="subtitle">Making interface and experience on a table top with OpenStreetMap.</a>
-          </h2>
-        
-      </div>
-      <div id="header-inner" class="inner">
-        <nav id="main-nav">
-          <a id="main-nav-toggle" class="nav-icon"></a>
-          
-            <a class="main-nav-link" href="/">Home</a>
-          
-            <a class="main-nav-link" href="/archives">Archives</a>
-          
-            <a class="main-nav-link" href="/2016/12/13/what-is-mable/">About</a>
-          
-        </nav>
-        <nav id="sub-nav">
-          
-            <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-          
-          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-        </nav>
-        <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mable-project.github.io"></form>
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Mable</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#preview">App</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#video">Video</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#features">Features</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#blog">Blog</a>
+                    </li>
+                    <!--<li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>-->
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
-      </div>
-    </div>
-  -->
+        <!-- /.container-fluid -->
+    </nav>
 
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="header-content">
+                        <div class="header-content-inner">
+                            <img src="img/mable.png">
+                            <h1>Take your map on a table!</h1>
+                            <p>Making new interface and exerience for people on a table top with OpenStreetMap.</p>
+                            <!--<a href="#features" class="btn btn-outline btn-xl page-scroll">What is Mable?</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  
-    <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(/css/images/mable-projection3.jpg); background-size: auto 100%;">
-  
+    <section id="preview" class="preview bg-primary text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Discover where streets you love!</h2>
+                    <p>You can extract street line data and preview your Mable! Access now to get started!</p>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="device-container">
+                        <div class="device-mockup macbook portrait white">
+                            <div class="device">
+                                <div class="screen">
+                                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                                    <img src="img/demo-screen.gif" class="img-responsive" alt=""> </div>
+                                <div class="button">
+                                    
+                                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <a href="#" class="btn btn-outline2 btn-xl page-scroll">Comming soon!</a>
+                    <!--<a target="_blank" href="#" class="btn btn-outline2 btn-xl page-scroll">Try Preview App for Free!</a>-->
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <canvas width="100%" height="100%"></canvas>
-    <script>
-      var c = document.getElementsByTagName('canvas')[0],
-          x = c.getContext('2d'),
-          w = window.innerWidth,
-          h = window.innerHeight,
-          pr = window.devicePixelRatio || 1,
-          f = 90,
-          q,
-          m = Math,
-          r = 0,
-          u = m.PI*2,
-          v = m.cos,
-          z = m.random
-      c.width = w*pr
-      c.height = h*pr
-      x.scale(pr, pr)
-      x.globalAlpha = 0.6
+    <section id="video" class="cta">
+        <div class="cta-content">
+            <div class="container">
+                <h2>Not a paper,<br>Not a screen.</h2>
+                <a target="_blank" href="https://youtu.be/5LliD1dqA38" class="btn btn-outline btn-xl page-scroll">Watch videos on YouTube</a>
+            </div>
+        </div>
+        <div class="overlay">
+            <video src="img/mable.mp4" autoplay loop></video>
+        </div>
+    </section>
 
-      
-    </script>
-    
+    <section id="features" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Unlimited Creativity, Unlimited Fun</h2>
+                        <p class="text-muted">Check out how we create it with the elements!</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="feature-item">
+                                    <i class="icon-grid text-primary"></i>
+                                    <h3>Grid System</h3>
+                                    <p class="text-muted">A unit of Mable is 500 x 500 mm grid. You can create one map table to combine them.</p>
+                                    <img src="img/mable-preparty.jpg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="icon-map text-primary"></i>
+                                    <h3>OpenStreetMap</h3>
+                                    <p class="text-muted">Mable is created by open data from <a target="_blank" href="http://www.openstreetmap.org/">OpenStreetMap</a> as the Wikipedia of maps.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="icon-wrench text-primary"></i>
+                                    <h3>Digital Fablication</h3>
+                                    <p class="text-muted">We can perform an unconventional processing by emergence of <a target="_blank" href="https://en.wikipedia.org/wiki/Digital_modeling_and_fabrication">digital fablication</a>, or <a target="_blank" href="https://en.wikipedia.org/wiki/Fab_lab">MIT FabLab</a>.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="icon-frame text-primary"></i>
+                                    <h3>Projection Mapping</h3>
+                                    <p class="text-muted">Mable is projected data visualization or art using Portable Ultra Short Throw Projector <a target="_blank" href="http://www.sony.com/electronics/projector/lspx-p1">LSPX-P1</a> by <a target="_blank" href="http://www.sony.com/electronics/life-space-ux">Sony Life Space UX</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--<div class="col-md-6">
+                                <div class="feature-item">
+                                    <i class="icon-lock-open text-primary"></i>
+                                    <h3>Open Source</h3>
+                                    <p class="text-muted">...</p>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
 
-    
-      <div id="homelogo" class="homelogo" style="background: rgba(255,255,255,1);"> 
-    
+    <section id="blog" class="blog bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Mable Blog<!-- on Medium--></h2>
+                        <hr>
+                        <a target="_blank" href="https://mable-project.github.io/blog/" class="btn btn-outline2 btn-xl page-scroll">Read our stories</a>
+                        <!--<a target="_blank" href="https://medium.com/@mable.project" class="btn btn-outline2 btn-xl page-scroll">Read our stories</a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="container-fluid">
+                    </div>
+                </div>
+            </div>
+    </section>
 
-        
-          <div class="homelogoback"  style="border: 1px solid #404040;" >
-            <h1><a href="#content" id="logo">Mable</a></h1>
-            <h3>Making interface and experience on a table top with OpenStreetMap.</h3>
-            <!-- <h5>Yusuke Nunokawa, Yuta Akasaki</h5> -->
-            <!-- <p><a href="https://github.com/iTimeTraveler" target="_blank">Github</a></p> -->
-          </div>
-        
-    
-    </div>
-  </div>
+    <!--<section id="contact" class="contact bg-primary">
+        <div class="container">
+            <h2>We <i class="fa fa-heart"></i> new friends!</h2>
+            <ul class="list-inline list-social">
+                <li class="social-twitter">
+                    <a target="_blank" href="https://twitter.com/mable_project"><i class="fa fa-twitter"></i></a>
+                </li>
+                <li class="social-facebook">
+                    <a target="_blank" href="https://www.facebook.com/mable.project/"><i class="fa fa-facebook"></i></a>
+                </li>
+                <li class="social-instagram">
+                    <a target="_blank" href="https://www.instagram.com/mable.project/"><i class="fa fa-instagram"></i></a>
+                </li>
+            </ul>
+        </div>
+    </section>-->
 
-  <!-- 自适应主页背景大图 -->
-  
-    <script>
-        var img = new Image();
-        var intrologodiv = document.getElementById("intrologo");
-        img.src = intrologodiv.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
-        img.onload=function(){
-          if (img.width / img.height <= document.body.clientWidth / document.body.clientHeight) {
-            intrologodiv.style.backgroundSize = "100% auto";
-          } else {
-            intrologodiv.style.backgroundSize = "auto 100%";
-          }
-        };
-    </script>
- 
-
- <!-- home_logo_image居中 -->
- 
-    <script>
-        var homelogodiv = document.getElementById("homelogo");
-        if (document.all.homelogo.offsetWidth > document.body.clientWidth) {
-          homelogodiv.style.width = document.body.clientWidth + "px";
-          homelogodiv.style.marginLeft = document.body.clientWidth * -0.5 + "px";
-        } else {
-          homelogodiv.style.width = homelogodiv.clientWidth  + "px";
-          homelogodiv.style.marginLeft = (homelogodiv.clientWidth)  * -0.5 + "px";
-        }
-    </script>
-  
-
-  <div class="intro-navigate">
-      <p class="navigater-list">
-        
-          <a id="beautifont" class="main-nav-link" href="/">Home</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/archives">Archives</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/2016/12/13/what-is-mable/">About</a>
-        
-      </p>
-  </div>
-
-</header>
-  
-  <div id="container">
-    <div id="wrap">
-      
-            
-      <div id="content" class="outer">
-        
-          <section id="main" style="float:none;">
-  
-    <article id="post-our-lovely-logo-has-been-printed"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/02/13/our-lovely-logo-has-been-printed/">Our lovely logo has been printed</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/02/13/our-lovely-logo-has-been-printed/" class="article-date">
-	  <time datetime="2017-02-12T15:40:00.000Z" itemprop="datePublished">2017-02-13</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>We etched our Mable logo on a tabletop along the prototype production as we introduced in the previous blog post.</p>
-<p><img src="/images/201702/printed-logo.jpg" alt="Printed Logo"></p>
-<p>Amazing resemblance.<br>Can you see the detailed wood graining? It is just so adorable when it’s up close.</p>
-<p>It is very well blended in since it’s also etched in the same manner as street lines.<br>We could have engraved the serial number on the back of a tabletop secretly, but that’s for the future.</p>
-<p>While we are so pleased that our logo came out nicely, we can’t forget one more thing that we need to put on Mable.<br>Since street lines we use for Mable is from OpenStreetMap, we need to credit them : © OpenStreetMap contributors</p>
-<p>However, where should we put credit on a product like Mable?<br>It is said on <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ" target="_blank" rel="external">OpenStreetMap Wiki’s Legal FAQ</a> page that for a browsable electronic map, it should be on a corner of the map, and for a printed map, it can be included in acknowledgment. They are both noticeable in some degree. Unfortunately, they don’t mention anything on the furniture…of course.<br>It is not appealing if we put credit on a tabletop for the sake of its design, but nobody would notice it on the back of a tabletop even if it’s a common practice.</p>
-<p><img src="/images/201702/printed-map.jpg" alt="Where should we put credit on Mable?"></p>
-<p>We are hoping that we could find somewhere more visible where people can see our appreciation towards OpenStreetMap and FabCafe.<br>Please, share your idea if you have any for the perfect spot.</p>
-
-      
-    </div>
-    <footer class="article-footer">
+    <footer>
+        <div class="container">
+            <p>&copy; 2017 Mable Project Team. All Rights Reserved.</p>
+            <ul class="list-inline list-social">
+                <li>
+                    <a target="_blank" href="https://twitter.com/mable_project"><i class="icon-social-twitter text-white"></i></a>
+                </li>
+                <li>
+                    <a target="_blank" href="https://www.facebook.com/mable.project/"><i class="icon-social-facebook text-white"></i></a>
+                </li>
+                <li>
+                    <a target="_blank" href="https://www.instagram.com/mable.project/"><i class="icon-social-instagram text-white"></i></a>
+                </li>
+            </ul>
+            <ul class="list-inline">
+                <li>
+                    <a href="#">Privacy</a>
+                </li>
+                <li>
+                    <a href="#">Terms</a>
+                </li>
+                <li>
+                    <a href="#">FAQ</a>
+                </li>
+            </ul>
+        </div>
     </footer>
-  </div>
-  
-</article>
 
-<!-- Table of Contents -->
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
 
-  
-    <article id="post-prototyping-at-fabcafe-tokyo"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/01/23/prototyping-at-fabcafe-tokyo/">Prototyping at FabCafe Tokyo</a>
-    </h1>
-  
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/01/23/prototyping-at-fabcafe-tokyo/" class="article-date">
-	  <time datetime="2017-01-22T15:35:00.000Z" itemprop="datePublished">2017-01-23</time>
-	</a>
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Why-We-Create-Prototype"><a href="#Why-We-Create-Prototype" class="headerlink" title="Why We Create Prototype?"></a>Why We Create Prototype?</h2><p>Currently, we are focusing on completing our first Mable prototype. Unfortunately, we have neither enough budget nor collaborators as of yet, so we are thinking of having an opportunity for people to take a look at the actual Mable just so you can get to know us.<br>Of course, we utilize SNS such as <a href="https://www.facebook.com/mable.project/" target="_blank" rel="external">Facebook</a>, <a href="https://www.instagram.com/mable.project/" target="_blank" rel="external">Instagram</a>, and this blog to spread our idea; however, we believe that you can see and feel much more through the actual product.<br>For that reason, we are planning an event. Through such experience, we are hoping to hear your honest opinion on Mable for a better and one and only product.</p>
-<p><img src="/images/201701/prototyping.jpg" alt="Prototype Image"></p>
-<h2 id="How-We-Make-It"><a href="#How-We-Make-It" class="headerlink" title="How We Make It?"></a>How We Make It?</h2><p>We also have no equipment at all for Mable production.<br>It requires a combination of both certain skills and specific machine tools in order to etch the street line on a tabletop.<br>Lucky enough, we got a first part covered: a skill set to extract street line data from <a href="https://www.openstreetmap.org/" target="_blank" rel="external">OpenStreetMap</a> and convert to a laser cutting ready.<br>For a second part, we are getting help from Fab facility, that is proven that we, creators such as ourselves, can perform such an unconventional processing by emergence of <a href="https://en.wikipedia.org/wiki/Digital_modeling_and_fabrication" target="_blank" rel="external">digital fablication</a>, or <a href="https://en.wikipedia.org/wiki/Fab_lab" target="_blank" rel="external">MIT FabLab</a>.</p>
-<p><img src="/images/201701/FabLab_Paris.jpg" alt=""><br><span class="caption"><em>Français : Fab lab de la cité des sciences de Paris.</em></span><span class="caption">© <a href="https://commons.wikimedia.org/wiki/User:Benoît_Prieur" target="_blank" rel="external">Benoît Prieur</a> / <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="external">Wikimedia Commons</a> / <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="external">CC BY-SA 4.0</a></span></p>
-<h2 id="Where-Has-It-Been-Made"><a href="#Where-Has-It-Been-Made" class="headerlink" title="Where Has It Been Made?"></a>Where Has It Been Made?</h2><p>This time, we made our Mable’s tabletop at <a href="http://www.fabcafe.com/tokyo/" target="_blank" rel="external">FabCafe Tokyo</a> in Shibuya, one of Fab facilities in our neighbors. This place is so great for various reasons. Since it is a part of cafe, we can have some coffee, or even meals (hot dog and open sandwich looked so good by the way) while we are waiting for a process to be done. Of course, we can also have a meeting at the same time.<br>In a previous experiment (etching the street line on a tabletop), it took us about 2 hours, but this time, we could reduce down to 1+ hour.<br>Mable is just amazing as it is by a single tabletop; however, if you put several of them all together, you can simply expand the map area that you can have.<br>Thus, it was great progress that we could shorten time (and financial cost as well since it’s a per-hour charge) so that we can produce twice as many products by the same cost.</p>
-<p><video src="/images/201701/lasercut-timelapse.mp4" controls></video><br><span class="caption">Etching the street lines at FabCafe</span></p>
-<h2 id="What’s-Next"><a href="#What’s-Next" class="headerlink" title="What’s Next?"></a>What’s Next?</h2><p>Let us go over a Mable production process here;</p>
-<ol>
-<li>Exporting data from OpenStreetMap</li>
-<li>Converting data for laser cutting</li>
-<li>Processing on a tabletop by laser cutter</li>
-<li>Polishing a tabletop surface for enhancing quality</li>
-<li>Manufacturing table legs</li>
-<li>Assembling a tabletop to legs</li>
-</ol>
-<p>So far, we have completed from step 1 - 3. And now we are on step 4 - 6 that could elevate the level of perfection as furniture. Since one of our co-founders is an architect, it is not difficult for finishing up those steps, yet we need to standardize table legs for securing more horizontal expansion of Mable.<br>Although we’ve done step 1 already, we are considering developing a Web service for more efficiency. It will allow you to confirm the finishing product image with the area of your choice. Also, we are going to do projection mapping on Mable, and the tools are under development as well.<br>We set a goal to complete all 6 steps plus projection mapping by spring this year, so be excited for an upcoming event that we will hold somewhere in Tokyo. It is going to be FUNtastic.</p>
-<p><img src="/images/201701/rooftop.png" alt="Our rooftop balcony"></p>
+    <!-- Theme JavaScript -->
+    <script src="js/new-age.min.js"></script>
 
-      
-    </div>
-    <footer class="article-footer">
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-mable-logo-is-out"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/01/10/mable-logo-is-out/">Mable logo is out</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/01/10/mable-logo-is-out/" class="article-date">
-	  <time datetime="2017-01-10T11:16:00.000Z" itemprop="datePublished">2017-01-10</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Mable-Logo"><a href="#Mable-Logo" class="headerlink" title="Mable Logo"></a>Mable Logo</h2><p>We have made and released the logo for Mable!</p>
-<p><img src="/images/201701/mable-logo.jpg" alt="Mable Logo"></p>
-<p>Our logo is composed of the name “Mable” and the backboard image. We arranged street lines and a grain pattern as a feature on a backboard. It has been decided that our brand color is <code>#54d08e</code> only. Because it should use a single color to print it on Mable using a laser cuttor.</p>
-<h2 id="Mable-Instagram"><a href="#Mable-Instagram" class="headerlink" title="Mable Instagram"></a>Mable Instagram</h2><p>There is one more thing that we would like to inform you of.</p>
-<p>We started to post pictures/videos on <a href="https://www.instagram.com/mable.project/" target="_blank" rel="external">Instagram (@mable.project)</a> for sharing our concept and images. It will be about three themes of our project: <strong><a href="https://en.wikipedia.org/wiki/Fab_lab" target="_blank" rel="external">Fab</a>, <a href="https://www.openstreetmap.org/" target="_blank" rel="external">OpenStreetMap</a>, <a href="https://en.wikipedia.org/wiki/Projection_mapping" target="_blank" rel="external">Projection Mapping</a></strong>.</p>
-<p>We use <a href="https://www.facebook.com/mable.project/" target="_blank" rel="external">Facebook</a> and <a href="https://github.com/mable-project" target="_blank" rel="external">GitHub</a> as another social media. Our Facebook page is created for communicating Japanese community, and several tools for Mable will be published on GitHub. So you can talk openly and freely with us.</p>
-<p><img src="/images/201701/mable-on-instagram.png" alt="Mable on Instagram"></p>
-<p>Follow me if you interested our project!</p>
-
-      
-    </div>
-    <footer class="article-footer">
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2017-is-comming"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/01/01/2017-is-comming/">2017 is comming</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2017/01/01/2017-is-comming/" class="article-date">
-	  <time datetime="2016-12-31T15:00:00.000Z" itemprop="datePublished">2017-01-01</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Happy new year!<br>We will hope that 2017 is Mable’s birth year!</p>
-<h2 id="Projection-Mapping-Labs-for-Mable"><a href="#Projection-Mapping-Labs-for-Mable" class="headerlink" title="Projection Mapping Labs for Mable"></a>Projection Mapping Labs for Mable</h2><p>At the end of last year, we have experimented for checking projected animation on Mable. It project street vector data (SVG) with animation using <a href="http://bchanx.com/animated-gameboy-in-css" target="_blank" rel="external">CSS3 animation</a> and <a href="https://d3js.org/" target="_blank" rel="external">D3.js</a>.</p>
-<p><img src="/images/201701/projection-test.jpg" alt="Projection Mapping on Mable"></p>
-<p>We use awesome projector to project on a table. It is <a href="http://www.sony.com/electronics/projector/lspx-p1" target="_blank" rel="external">SONY LSPX-P1</a> as Portable Ultra Short Throw Projector.</p>
-<iframe style="width:100%;" src="https://www.youtube.com/embed/4LBPKkRf2MU" frameborder="0" allowfullscreen></iframe>
-
-<p>This animation make the street lines longer slowly. Then it looks like putting light into streets.<br>Let’s play the video!<br>However you should turn off the sound because it contains our voice..</p>
-<p><video src="/images/201701/projection-test.mp4" controls></video><br><span class="caption">Generated light streets!</span></p>
-<h2 id="CSS-animation-tricks"><a href="#CSS-animation-tricks" class="headerlink" title="CSS animation tricks"></a>CSS animation tricks</h2><p>We love CSS animation tricks and use <code>stroke-dashoffset</code> and <code>stroke-dasharray</code> of them to animate street lines. Please see the below codes as reference.</p>
-<h5 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h5><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">path</span> &#123;</div><div class="line">  <span class="attribute">stroke-dashoffset</span>: <span class="number">500</span>;</div><div class="line">  <span class="attribute">stroke-dasharray</span>: <span class="number">500</span>;</div><div class="line">  <span class="attribute">stroke-linecap</span>: round;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">map.selectAll(<span class="string">'path'</span>)</div><div class="line">  .data(json.features)</div><div class="line">  .enter()</div><div class="line">  .append(<span class="string">'path'</span>)</div><div class="line">  .attr(<span class="string">'d'</span>, path)</div><div class="line">  .attr(<span class="string">"fill"</span>, <span class="string">"rgba(0,0,0,0)"</span>)</div><div class="line">  .attr(<span class="string">"stroke"</span>,<span class="string">"rgba(255,255,255,1)"</span> )</div><div class="line">  .transition()</div><div class="line">  .delay(<span class="number">300</span>)</div><div class="line">  .duration(<span class="number">100000</span>)</div><div class="line">  .style(<span class="string">'stroke-dashoffset'</span>, <span class="number">0</span>)</div><div class="line">  .style(<span class="string">'stroke-opacity'</span>, <span class="number">1</span>);</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-what-is-mable"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2016/12/13/what-is-mable/">What is Mable?</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2016/12/13/what-is-mable/" class="article-date">
-	  <time datetime="2016-12-12T15:55:38.000Z" itemprop="datePublished">2016-12-13</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Our project name is ‘Mable’. It is a coined word combined ‘Map’ and ‘Table’. </p>
-<p><img src="/images/bg.jpg" alt="Mable"></p>
-<h2 id="What-will-we-do"><a href="#What-will-we-do" class="headerlink" title="What will we do?"></a>What will we do?</h2><p>We will create a table with OpenStreetMap data and was inspired <a href="http://setosa.io/blog/2014/08/10/woodcut-data-visualization/" target="_blank" rel="external">‘Woodcut Data Visualization’</a>. A top board of Mable is cut with a laser cutter by street vector data. We make this data as Scalable Vector Graphics (SVG) using just <a href="http://d3js.org/" target="_blank" rel="external">D3</a> and use <a href="http://nytimes.github.io/svg-crowbar/" target="_blank" rel="external">SVG Crowbar</a>. Because it will be able to open the file in Adobe Illustrator for a laser cutter.</p>
-<p><img src="/images/akasaki-woodcut.jpg" alt="Woodcut Table Board (Prototype)"></p>
-<h2 id="Where-will-we-go"><a href="#Where-will-we-go" class="headerlink" title="Where will we go?"></a>Where will we go?</h2><p>We will run toward creating the production line for Mable and sharing various local community including OSM mappers. Then people can drink, eat, talk and discuss on table that was lined streets of your city.<br>In addition, we would like to display a graphic animation with a projection mapping. It may be art combined real lines and virtual lines.</p>
-<p><img src="/images/generated-road.gif" alt="Graphic Animation"></p>
-<h2 id="What-kind-of-technology-is-used"><a href="#What-kind-of-technology-is-used" class="headerlink" title="What kind of technology is used?"></a>What kind of technology is used?</h2><ul>
-<li>OpenStreetMap’s overpass API (GeoJSON)</li>
-<li>D3.js</li>
-<li>SVG Crowbar</li>
-<li>Laser cutter</li>
-<li>Portable Ultra Short Throw Projector</li>
-<li>CSS3 animation</li>
-</ul>
-<h2 id="Co-founder"><a href="#Co-founder" class="headerlink" title="Co-founder"></a>Co-founder</h2><ul>
-<li><a href="https://ynunokawa.github.io" target="_blank" rel="external">Yusuke Nunokawa</a></li>
-<li>Yuta Akasaki</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-
-
-</section>
-        
-      </div>
-      
-        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
-      
-      <footer id="footer">
-  
-
-  <div class="container">
-      <div class="row">
-	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">&copy; 2016 - 2017 Mable</p>
-	      <!--<p id="copyRightCn">Yusuke Nunokawa, Yuta Akasaki hold copyright</p>-->
-        <p>Documentation and all images licensed under CC BY-SA 4.0.</p>
-	</div>
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
-    </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/2016/12/13/what-is-mable/" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
-
-
-  <script src="/js/home.js"></script>
-
-
-
-
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-39596060-8', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-
-
-  </div>
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            Mable
-          </div>
-          <div class="panel-body">
-            Copyright © 2017 Yusuke Nunokawa, Yuta Akasaki All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
 </body>
+
 </html>
