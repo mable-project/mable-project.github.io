@@ -290,6 +290,23 @@ section.features .feature-item i {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+section.features .feature-item-inline {
+  text-align: center;
+  margin-bottom: 100px;
+}
+section.features .feature-item-inline h3 {
+  font-size: 30px;
+}
+section.features .feature-item-inline i {
+  font-size: 80px;
+  background: -webkit-linear-gradient(to left, #5496d0, #d05496);
+  background: linear-gradient(to left, #5496d0, #d05496);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+section.features .feature-item-inline img {
+  width: 100%;
+}
 @media (min-width: 992px) {
   section.features .device-container,
   section.features .feature-item {
