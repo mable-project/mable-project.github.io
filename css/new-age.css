@@ -344,7 +344,7 @@ section.cta .cta-content h2 {
     font-size: 80px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   section.cta {
     background-position: center;
     background-image: url('../img/projected-streets.jpg');
@@ -361,6 +361,7 @@ section.cta .overlay {
 }
 section.cta video {
   height: 100%;
+  min-width: 100%;
 }
 section.cta img {
   height: 100%;

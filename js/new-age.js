@@ -35,7 +35,8 @@
     insertBackgroundVideo();
 
     function insertBackgroundVideo() {
-        if ($(window).width() >= 768) {
+        if ($(window).width() > 1024) {
+            $('#video-bg').empty();
             $('#video-bg').append('<video src="img/mable.mp4" autoplay loop></video>');
         } else {
             $('#video-bg').empty();
