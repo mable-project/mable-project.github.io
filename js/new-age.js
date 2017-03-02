@@ -37,9 +37,10 @@
     function insertBackgroundVideo() {
         if ($(window).width() > 1024) {
             $('#video-bg').empty();
-            $('#video-bg').append('<video src="img/mable.mp4" autoplay loop></video>');
+            $('#video-bg').append('<video src="img/mable.mp4" autoplay loop></video><div class="copyright">© OpenStreetMap contributors © Ito World</div>');
         } else {
             $('#video-bg').empty();
+            $('#video-bg').append('<div class="copyright">© OpenStreetMap contributors</div>');
         }
     }
 

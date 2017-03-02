@@ -359,6 +359,16 @@ section.cta .overlay {
   left: 0;
   overflow: hidden;
 }
+section.cta .copyright {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px 15px 10px 15px;
+  font-size: 12px;
+  color: white;
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.7);
+}
 section.cta video {
   height: 100%;
   min-width: 100%;
