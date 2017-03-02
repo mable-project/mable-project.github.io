@@ -28,4 +28,18 @@
         }
     })
 
+    $(window).resize(function(){
+        insertBackgroundVideo();
+    });
+
+    insertBackgroundVideo();
+
+    function insertBackgroundVideo() {
+        if ($(window).width() >= 768) {
+            $('#video-bg').append('<video src="img/mable.mp4" autoplay loop></video>');
+        } else {
+            $('#video-bg').empty();
+        }
+    }
+
 })(jQuery); // End of use strict

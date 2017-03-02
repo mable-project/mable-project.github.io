@@ -307,7 +307,7 @@ section.cta {
     position: relative;
     .background-cover;
     /*background-position: center;
-    background-image: url('../img/bg-cta.jpg');*/
+    background-image: url('../img/projected-streets.jpg');*/
     padding: 250px 0;
     .cta-content {
         position: relative;
@@ -325,6 +325,10 @@ section.cta {
             }
         }
     }
+    @media (max-width: 767px) {
+        background-position: center;
+        background-image: url('../img/projected-streets.jpg');
+    }
     .overlay {
         height: 100%;
         width: 100%;
@@ -336,6 +340,10 @@ section.cta {
     }
     video {
         height: 100%;
+    }
+    img {
+        height: 100%;
+        width: auto;
     }
 }
 
@@ -343,7 +351,7 @@ section.blog {
     position: relative;
     .background-cover;
     background-position: center;
-    background-image: url('../img/printed-map.jpg');
+    background-image: url('../img/mable-preparty.jpg');
     padding: 250px 0;
     .cta-content {
         position: relative;
@@ -369,9 +377,6 @@ section.blog {
         top: 0;
         left: 0;
         overflow: hidden;
-    }
-    video {
-        height: 100%;
     }
 }
 
