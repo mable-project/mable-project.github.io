@@ -353,7 +353,7 @@ section.cta .cta-content h2 {
 section.cta .overlay {
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  /*background-color: fade(black, 50%);*/
   position: absolute;
   top: 0;
   left: 0;
@@ -362,6 +362,7 @@ section.cta .overlay {
 section.cta video {
   height: 100%;
   min-width: 100%;
+  background-color: black;
 }
 section.cta img {
   height: 100%;
