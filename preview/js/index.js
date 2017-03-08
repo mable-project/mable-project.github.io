@@ -96,7 +96,7 @@ function initMap() {
   map = new mapboxgl.Map(mapProps);
 
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-  map.addControl(new MapboxGeocoder({ accessToken: mapboxgl.accessToken }), 'top-right');
+  map.addControl(new MapboxGeocoder({ accessToken: mapboxgl.accessToken }), 'bottom-left');
 
   map.on('load', function () {
     console.log(map);
