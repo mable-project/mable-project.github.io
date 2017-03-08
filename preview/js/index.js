@@ -35,16 +35,18 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbmVjYXZhbGllcmUiLCJhIjoib0VGcnZCOCJ9.RY2D
 
 // [Get Streets] button onclick event
 document.getElementById('export-btn').onclick = function () {
-  currentExportBounds = getExportBounds();
-  currentExportScreenBounds = map.getBounds();
-  updateTableImage(currentExportBounds);
-  if (gotStreets === false) {
-    gotStreets = true;
-    getStreetsPNGInBounds(currentExportBounds);
-  } else {
-    updateStreetsPNGInBounds(currentExportBounds);
+  if (currentExportAreaBounds._ne.lng < -180 || currentExportAreaBounds._sw.lng > 180 || zoom < minDownloadableZoom) {
+    currentExportBounds = getExportBounds();
+    currentExportScreenBounds = map.getBounds();
+    updateTableImage(currentExportBounds);
+    if (gotStreets === false) {
+      gotStreets = true;
+      getStreetsPNGInBounds(currentExportBounds);
+    } else {
+      updateStreetsPNGInBounds(currentExportBounds);
+    }
+    showBasemap();
   }
-  showBasemap();
 };
 
 document.getElementById('switch-view-btn').onclick = function () {
