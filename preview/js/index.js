@@ -6,6 +6,7 @@ var dragRotateHandler;
 var currentExportBounds;
 var currentExportScreenBounds;
 var mableAPIDomain = 'https://dev.mable.me';
+var gotStreets = false;
 
 // props to initialize this app
 var mapProps = {
@@ -24,6 +25,7 @@ var tableImageProps = {
   url: 'img/table-bg.png',
   opacity: 0.85
 };
+var minDownloadableZoom = 11;
 
 // token for Mapbox GL JS
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbmVjYXZhbGllcmUiLCJhIjoib0VGcnZCOCJ9.RY2Dhob09djoIsObhsJMvA';
@@ -36,7 +38,12 @@ document.getElementById('export-btn').onclick = function () {
   currentExportBounds = getExportBounds();
   currentExportScreenBounds = map.getBounds();
   updateTableImage(currentExportBounds);
-  updateStreetsPNGInBounds(currentExportBounds);
+  if (gotStreets === false) {
+    gotStreets = true;
+    getStreetsPNGInBounds(currentExportBounds);
+  } else {
+    updateStreetsPNGInBounds(currentExportBounds);
+  }
   showBasemap();
 };
 
@@ -87,7 +94,24 @@ function updateUrlMapProps() {
   if (map.getLayoutProperty(tableImageProps.id, 'visibility') !== 'visible') {
     var center = map.getCenter();
     var zoom = map.getZoom();
-    location.hash='map=' + zoom + '/' +center.lat + '/' + center.lng;
+    location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
+  }
+}
+
+// check longitude if not exceeded |180|
+function checkLngOver180andZoom() {
+  if (map.getLayoutProperty(tableImageProps.id, 'visibility') !== 'visible') {
+    var currentExportAreaBounds = getExportBounds();
+    var zoom = map.getZoom();
+    if (currentExportAreaBounds._ne.lng < -180 || currentExportAreaBounds._sw.lng > 180 || zoom < minDownloadableZoom) {
+      hideGetStreetsComponentsOnMap();
+      return false;
+    } else {
+      showGetStreetsComponentsOnMap();
+      return true;
+    }
+  } else {
+    return false;
   }
 }
 
@@ -103,12 +127,18 @@ function initMap() {
     currentExportBounds = getExportBounds();
     currentExportScreenBounds = map.getBounds();
     getTableImage(currentExportBounds);
-    getStreetsPNGInBounds(currentExportBounds);
+    checkLngOver180andZoom();
+    /*if (checkLngOver180andZoom() === true) {
+      getStreetsPNGInBounds(currentExportBounds);
+    };*/
   });
 
   /*map.on('dragend', updateUrlMapProps);
   map.on('zoomend', updateUrlMapProps);*/
-  map.on('moveend', updateUrlMapProps);
+  map.on('moveend', function () {
+    updateUrlMapProps();
+    checkLngOver180andZoom();
+  });
 }
 
 // calculate coordinates of bounds
@@ -125,6 +155,8 @@ function getExportBounds() {
 
 // add streets into map with our OSM API
 function getStreetsPNGInBounds(bounds) {
+  document.getElementById('switch-view-btn').style.display = 'block';
+
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
 
