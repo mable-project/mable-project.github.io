@@ -202,7 +202,7 @@ function hideBasemap() {
 // show elements as bbox and button to get streets
 function showGetStreetsComponentsOnMap() {
   document.getElementById('export-area').style.display = 'flex';
-  document.getElementById('export-btn').style.display = 'flex';
+  document.getElementById('export-btn').style.display = 'block';
 }
 
 // hide elements as bbox and button to get streets
