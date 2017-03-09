@@ -123,6 +123,8 @@ function checkLngOver180andZoom() {
 function initMap() {
   map = new mapboxgl.Map(mapProps);
 
+  map.touchZoomRotate.disableRotation();
+
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   map.addControl(new MapboxGeocoder({ accessToken: mapboxgl.accessToken }), 'bottom-left');
 
