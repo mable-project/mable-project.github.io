@@ -68,6 +68,6 @@ button.disabled {
     min-width: 200px;
   }
 }
-.mapboxgl-ctrl-geocoder > input {
+.mapboxgl-ctrl-geocoder > * {
   font-family: Lato, Helvetica, Arial, sans-serif;
 }
