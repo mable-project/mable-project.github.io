@@ -262,14 +262,18 @@ function hideBasemap() {
 
 // show elements as bbox and button to get streets
 function showGetStreetsComponentsOnMap() {
-  document.getElementById('export-area').style.display = 'flex';
-  document.getElementById('export-btn').style.display = 'block';
+  //document.getElementById('export-area').style.display = 'flex';
+  //document.getElementById('export-btn').style.display = 'block';
+  document.getElementById('export-area-inner').classList.remove('disabled');
+  document.getElementById('export-btn').classList.remove('disabled');
 }
 
 // hide elements as bbox and button to get streets
 function hideGetStreetsComponentsOnMap() {
-  document.getElementById('export-area').style.display = 'none';
-  document.getElementById('export-btn').style.display = 'none';
+  //document.getElementById('export-area').style.display = 'none';
+  //document.getElementById('export-btn').style.display = 'none';
+  document.getElementById('export-area-inner').classList.add('disabled');
+  document.getElementById('export-btn').classList.add('disabled');
 }
 
 getMapPropsfromUrl();
