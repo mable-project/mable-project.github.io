@@ -57,7 +57,8 @@ document.getElementById('switch-view-btn').onclick = function () {
   // switch a view (map <=> table)
   if (visibility === 'visible') {
       map.setLayoutProperty(tableImageProps.id, 'visibility', 'none');
-      showGetStreetsComponentsOnMap();
+      activateGetStreetsViews();
+      document.getElementById('export-area').style.display = 'flex';
       showBasemap();
       map.dragRotate.disable();
       map.setBearing(0);
@@ -71,7 +72,8 @@ document.getElementById('switch-view-btn').onclick = function () {
       });
       setTimeout(function () {
         map.setLayoutProperty(tableImageProps.id, 'visibility', 'visible');
-        hideGetStreetsComponentsOnMap();
+        deactivateGetStreetsViews();
+        document.getElementById('export-area').style.display = 'none';
         hideBasemap();
         map.dragRotate.enable();
       }, 1000);
@@ -131,10 +133,10 @@ function checkLngOver180andZoom() {
     var currentExportAreaBounds = getExportBounds();
     var zoom = map.getZoom();
     if (currentExportAreaBounds._ne.lng < -180 || currentExportAreaBounds._sw.lng > 180 || zoom < minDownloadableZoom) {
-      hideGetStreetsComponentsOnMap();
+      deactivateGetStreetsViews();
       return false;
     } else {
-      showGetStreetsComponentsOnMap();
+      activateGetStreetsViews();
       return true;
     }
   } else {
@@ -261,7 +263,7 @@ function hideBasemap() {
 }
 
 // show elements as bbox and button to get streets
-function showGetStreetsComponentsOnMap() {
+function activateGetStreetsViews() {
   //document.getElementById('export-area').style.display = 'flex';
   //document.getElementById('export-btn').style.display = 'block';
   document.getElementById('export-area-inner').classList.remove('disabled');
@@ -269,7 +271,7 @@ function showGetStreetsComponentsOnMap() {
 }
 
 // hide elements as bbox and button to get streets
-function hideGetStreetsComponentsOnMap() {
+function deactivateGetStreetsViews() {
   //document.getElementById('export-area').style.display = 'none';
   //document.getElementById('export-btn').style.display = 'none';
   document.getElementById('export-area-inner').classList.add('disabled');
