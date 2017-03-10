@@ -150,8 +150,10 @@ function initMap() {
 
   map.touchZoomRotate.disableRotation();
 
+  var geocoder = new MapboxGeocoder({ accessToken: mapboxgl.accessToken, flyTo: false });
+
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-  map.addControl(new MapboxGeocoder({ accessToken: mapboxgl.accessToken }), 'bottom-left');
+  map.addControl(geocoder, 'bottom-left');
 
   map.on('load', function () {
     console.log(map);
@@ -169,6 +171,11 @@ function initMap() {
   map.on('moveend', function () {
     updateUrlMapProps();
     checkLngOver180andZoom();
+  });
+
+  geocoder.on('result', function(e) {
+    console.log('result: ', e.result.center);
+    map.panTo(e.result.center);
   });
 }
 
