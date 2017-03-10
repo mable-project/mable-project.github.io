@@ -13,7 +13,7 @@ var mapProps = {
   container: 'map',
   //style: 'mapbox://styles/mapbox/dark-v9',
   style: 'mapbox://styles/mapbox/light-v9',
-  center: [139.654501, 35.616198],
+  center: [139.692101, 35.689634],
   zoom: 12.5,
   dragRotate: false
 };
@@ -83,13 +83,36 @@ function getMapPropsfromUrl() {
   var center = [];
   var zoom = null;
   var urlParams = location.hash.substring(1).split('&');
+  var hasMapHash = false;
   for (var i=0; urlParams[i]; i++) {
       var param = urlParams[i].split('=');
       if (param[0] === 'map') {
           var mapParamsArray = param[1].split('/');
           mapProps.center = [mapParamsArray[2], mapParamsArray[1]];
           mapProps.zoom = mapParamsArray[0];
+          hasMapHash = true;
       }
+  }
+  if (hasMapHash === false) {
+    getUserLocation();
+  } else {
+    initMap();
+  }
+}
+
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      console.log(pos.coords);
+      mapProps.center = [pos.coords.longitude, pos.coords.latitude];
+      initMap();
+    }, function () {
+      alert('現在地を取得できませんでした');
+      initMap();
+    });
+  } else {
+    alert('現在地を取得できませんでした');
+    initMap();
   }
 }
 
@@ -250,7 +273,7 @@ function hideGetStreetsComponentsOnMap() {
 }
 
 getMapPropsfromUrl();
-initMap();
+//initMap();
 
 
 ////////////////////////// Table View //////////////////////////
