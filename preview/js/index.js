@@ -196,6 +196,8 @@ function getExportBounds() {
 
 // add streets into map with our OSM API
 function getStreetsPNGInBounds(bounds) {
+  document.getElementById('export-area-inner').classList.remove('loading');
+  document.getElementById('export-area-inner').classList.add('shutter');
   document.getElementById('switch-view-btn').style.display = 'block';
 
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
@@ -213,7 +215,7 @@ function getStreetsPNGInBounds(bounds) {
   });
 
   setTimeout(function () {
-    document.getElementById('export-area-inner').classList.remove('loading');
+    document.getElementById('export-area-inner').classList.remove('shutter');
   }, 800);
 }
 
