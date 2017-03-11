@@ -31,6 +31,61 @@ body {
   border: solid 2px rgba(0,0,0,0.1);
   background-color: rgba(0,0,0,0.05);
 }
+#export-area-inner.loading {
+  animation: getting-streets .8s infinite;
+  -webkit-animation: getting-streets .8s infinite;
+}
+@keyframes getting-streets {
+  0% {
+    border: solid 2px rgba(84,208,142,0.5);
+  }
+  45% {
+    border: solid 225px rgba(84,208,142,0.2);
+  }
+  100% {
+    border: solid 2px rgba(84,208,142,0.5);
+  }
+}
+@-webkit-keyframes getting-streets {
+  0% {
+    border: solid 2px rgba(84,208,142,0.5);
+  }
+  45% {
+    border: solid 225px rgba(84,208,142,0.2);
+  }
+  100% {
+    border: solid 2px rgba(84,208,142,0.5);
+  }
+}
+
+@media (max-width: 600px) {
+  #export-area-inner {
+    width: 230px;
+    height: 230px;
+  }
+  @keyframes getting-streets {
+    0% {
+      border: solid 2px rgba(84,208,142,0.5);
+    }
+    45% {
+      border: solid 115px rgba(84,208,142,0.2);
+    }
+    100% {
+      border: solid 2px rgba(84,208,142,0.5);
+    }
+  }
+  @-webkit-keyframes getting-streets {
+    0% {
+      border: solid 2px rgba(84,208,142,0.5);
+    }
+    45% {
+      border: solid 115px rgba(84,208,142,0.2);
+    }
+    100% {
+      border: solid 2px rgba(84,208,142,0.5);
+    }
+  }
+}
 
 .btn-mable-preview {
   margin: 5px 5px 5px 12px;
@@ -45,13 +100,6 @@ body {
 
 button.disabled {
   pointer-events: none;
-}
-
-@media (max-width: 600px) {
-  #export-area-inner {
-    width: 230px;
-    height: 230px;
-  }
 }
 
 /* override mapbox-gl.css */

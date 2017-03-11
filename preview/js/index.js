@@ -37,6 +37,9 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbmVjYXZhbGllcmUiLCJhIjoib0VGcnZCOCJ9.RY2D
 document.getElementById('export-btn').onclick = function () {
   var currentExportAreaBounds = getExportBounds();
   var zoom = map.getZoom();
+
+  document.getElementById('export-area-inner').classList.add('loading');
+
   if (currentExportAreaBounds._ne.lng >= -180 || currentExportAreaBounds._sw.lng <= 180 || zoom < minDownloadableZoom) {
     currentExportBounds = getExportBounds();
     currentExportScreenBounds = map.getBounds();
@@ -208,6 +211,10 @@ function getStreetsPNGInBounds(bounds) {
     'type': 'raster',
     'source': streetsLayerProps.id
   });
+
+  setTimeout(function () {
+    document.getElementById('export-area-inner').classList.remove('loading');
+  }, 800);
 }
 
 // re-add streets into map with our OSM API
