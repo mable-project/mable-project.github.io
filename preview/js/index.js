@@ -141,11 +141,10 @@ function updateUrlMapProps(isPreview) {
   if (map.getLayoutProperty(tableImageProps.id, 'visibility') !== 'visible') {
     var center = map.getCenter();
     var zoom = map.getZoom();
-    if (isPreview === false) {
-      location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
-    } else {
-      location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&preview';
-    }
+    location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
+  }
+  if (isPreview === false) {
+    location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&preview';
   }
 }
 
