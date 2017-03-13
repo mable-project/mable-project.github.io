@@ -177,9 +177,9 @@ function initMap() {
       title: 'Click it for clipping streets!'
     });
     $('#export-btn').tooltip('show');
-    setTimeout(function () {
+    /*setTimeout(function () {
       $('#export-btn').tooltip('destroy');
-    }, 5000);
+    }, 5000);*/
     $('#export-btn').on('mouseover', function () {
       $('#export-btn').tooltip('destroy');
     });
