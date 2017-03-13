@@ -138,25 +138,17 @@ body {
 }
 #export-btn {
   font-size: 44px;
-  color: rgba(84,208,142,0.5);
+  color: rgba(84,208,142,0.8);
   transition: all .4s;
   cursor: pointer;
   pointer-events: auto;
-  /*text-shadow: 2px 2px 1px white,
-    -2px 2px 1px white,
-    2px -2px 1px white,
-    -2px -2px 1px white;*/
 }
 #export-btn.disabled {
   color: rgba(0,0,0,0.1);
   pointer-events: none;
 }
 #export-btn:hover {
-  color: rgba(84,208,142,0.9);
-  /*text-shadow: 1px 1px 1px rgba(84,208,142,0.3),
-    -1px 1px 1px rgba(84,208,142,0.3),
-    1px -1px 1px rgba(84,208,142,0.3),
-    -1px -1px 1px rgba(84,208,142,0.3);*/
+  color: rgba(46,169,104,0.8);
 }
 @media (max-width: 600px) {
   #export-btn-area-inner {
