@@ -174,7 +174,7 @@ function initMap() {
     // initialize a tooltip for [GET STREETS] button
     $('#export-btn').tooltip({
       placement: 'bottom',
-      title: 'Click it for getting streets!'
+      title: 'Click it for clipping streets!'
     });
     $('#export-btn').tooltip('show');
     setTimeout(function () {
