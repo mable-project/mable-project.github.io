@@ -143,7 +143,7 @@ function updateUrlMapProps(isPreview) {
     var zoom = map.getZoom();
     location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
   }
-  if (isPreview === false) {
+  if (isPreview === true) {
     location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&preview';
   }
 }
