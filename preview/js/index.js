@@ -92,6 +92,7 @@ function getMapPropsfromUrl() {
   var zoom = null;
   var urlParams = location.hash.substring(1).split('&');
   var hasMapHash = false;
+  var hasPreviewHash = false;
   for (var i=0; urlParams[i]; i++) {
       var param = urlParams[i].split('=');
       if (param[0] === 'map') {
@@ -100,11 +101,14 @@ function getMapPropsfromUrl() {
           mapProps.zoom = mapParamsArray[0];
           hasMapHash = true;
       }
+      if (param[0] === 'preview') {
+        hasPreviewHash = true;
+      }
   }
   if (hasMapHash === false) {
     getUserLocation();
   } else {
-    initMap();
+    initMap(hasPreviewHash);
   }
 }
 
@@ -113,14 +117,14 @@ function getUserLocation() {
     navigator.geolocation.getCurrentPosition(function (pos) {
       console.log(pos.coords);
       mapProps.center = [pos.coords.longitude, pos.coords.latitude];
-      initMap();
+      initMap(false);
     }, function () {
       alert('現在地を取得できませんでした');
-      initMap();
+      initMap(false);
     });
   } else {
     alert('現在地を取得できませんでした');
-    initMap();
+    initMap(false);
   }
 }
 
@@ -151,7 +155,7 @@ function checkLngOver180andZoom() {
 }
 
 // create a map
-function initMap() {
+function initMap(isPreview) {
   map = new mapboxgl.Map(mapProps);
 
   map.touchZoomRotate.disableRotation();
@@ -183,6 +187,22 @@ function initMap() {
     $('#export-btn').on('mouseover', function () {
       $('#export-btn').tooltip('destroy');
     });
+
+    if (isPreview === true) {
+      getStreetsPNGInBounds(currentExportBounds);
+      $('#export-btn').tooltip('destroy');
+      map.fitBounds(currentExportScreenBounds, {
+        linear: true
+      });
+      setTimeout(function () {
+        map.setLayoutProperty(tableImageProps.id, 'visibility', 'visible');
+        deactivateGetStreetsViews();
+        document.getElementById('export-area').style.display = 'none';
+        document.getElementById('export-btn').style.display = 'none';
+        hideBasemap();
+        map.dragRotate.enable();
+      }, 1000);
+    }
   });
 
   /*map.on('dragend', updateUrlMapProps);
