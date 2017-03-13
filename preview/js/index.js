@@ -110,13 +110,13 @@ function setTableView() {
     linear: true
   });
   setTimeout(function () {
+    updateUrlMapProps(true);
     map.setLayoutProperty(tableImageProps.id, 'visibility', 'visible');
     deactivateGetStreetsViews();
     document.getElementById('export-area').style.display = 'none';
     document.getElementById('export-btn').style.display = 'none';
     hideBasemap();
     map.dragRotate.enable();
-    updateUrlMapProps(true);
   }, 1000);
 }
 
