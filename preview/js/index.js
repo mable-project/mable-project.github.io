@@ -62,6 +62,7 @@ document.getElementById('switch-view-btn').onclick = function () {
       map.setLayoutProperty(tableImageProps.id, 'visibility', 'none');
       activateGetStreetsViews();
       document.getElementById('export-area').style.display = 'flex';
+      document.getElementById('export-btn').style.display = 'flex';
       showBasemap();
       map.dragRotate.disable();
       map.setBearing(0);
@@ -77,6 +78,7 @@ document.getElementById('switch-view-btn').onclick = function () {
         map.setLayoutProperty(tableImageProps.id, 'visibility', 'visible');
         deactivateGetStreetsViews();
         document.getElementById('export-area').style.display = 'none';
+        document.getElementById('export-btn').style.display = 'none';
         hideBasemap();
         map.dragRotate.enable();
       }, 1000);
