@@ -173,9 +173,11 @@ function initMap() {
 
   /*map.on('dragend', updateUrlMapProps);
   map.on('zoomend', updateUrlMapProps);*/
+  map.on('move', function () {
+    checkLngOver180andZoom();
+  });
   map.on('moveend', function () {
     updateUrlMapProps();
-    checkLngOver180andZoom();
   });
 
   geocoder.on('result', function(e) {
