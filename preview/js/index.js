@@ -54,6 +54,7 @@ document.getElementById('export-btn').onclick = function () {
   }
 };
 
+// [SWITCH VIEW] button onclick event
 document.getElementById('switch-view-btn').onclick = function () {
   var visibility = map.getLayoutProperty(tableImageProps.id, 'visibility');
 
@@ -169,6 +170,19 @@ function initMap() {
     /*if (checkLngOver180andZoom() === true) {
       getStreetsPNGInBounds(currentExportBounds);
     };*/
+
+    // initialize a tooltip for [GET STREETS] button
+    $('#export-btn').tooltip({
+      placement: 'bottom',
+      title: 'Click it for getting streets!'
+    });
+    $('#export-btn').tooltip('show');
+    setTimeout(function () {
+      $('#export-btn').tooltip('destroy');
+    }, 5000);
+    $('#export-btn').on('mouseover', function () {
+      $('#export-btn').tooltip('destroy');
+    });
   });
 
   /*map.on('dragend', updateUrlMapProps);

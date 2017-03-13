@@ -162,11 +162,9 @@ body {
   width: 200px;
   background-color: #ddd;
 }
-
 #switch-view-btn {
   display: none;
 }
-
 button.disabled {
   pointer-events: none;
 }
@@ -187,4 +185,18 @@ button.disabled {
 }
 .mapboxgl-ctrl-geocoder > * {
   font-family: Lato, Helvetica, Arial, sans-serif;
+}
+
+/* override bootstrap.css */
+.tooltip-inner {
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  /*background-color: #646af5;*/
+  background-color: rgba(46,169,104,0.8);
+  padding: 10px;
+}
+.tooltip.bottom .tooltip-arrow {
+  border-bottom-color: rgba(46,169,104,0.8);
+}
+.tooltip.bottom {
+  margin-bottom: -12px;
 }
