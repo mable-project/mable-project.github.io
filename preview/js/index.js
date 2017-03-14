@@ -188,7 +188,6 @@ function initMap(isPreview) {
   initControls();
 
   map.on('load', function () {
-    console.log(map);
     currentExportBounds = getExportBounds();
     currentExportScreenBounds = map.getBounds();
     getTableImage(currentExportBounds);
@@ -211,6 +210,7 @@ function initMap(isPreview) {
     });
 
     if (isPreview === true) {
+      gotStreets = true;
       getStreetsPNGInBounds(currentExportBounds);
       $('#export-btn').tooltip('destroy');
       setTableView();
