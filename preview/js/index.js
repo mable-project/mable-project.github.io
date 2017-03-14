@@ -165,16 +165,26 @@ function checkLngOver180andZoom() {
   }
 }
 
+// initialize controls
+function initControls() {
+  var geocoder = new MapboxGeocoder({ accessToken: mapboxgl.accessToken, flyTo: false });
+
+  map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+  map.addControl(geocoder, 'bottom-left');
+
+  geocoder.on('result', function(e) {
+    console.log('result: ', e.result.center);
+    map.panTo(e.result.center);
+  });
+}
+
 // create a map
 function initMap(isPreview) {
   map = new mapboxgl.Map(mapProps);
 
   map.touchZoomRotate.disableRotation();
 
-  var geocoder = new MapboxGeocoder({ accessToken: mapboxgl.accessToken, flyTo: false });
-
-  map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-  map.addControl(geocoder, 'bottom-left');
+  initControls();
 
   map.on('load', function () {
     console.log(map);
@@ -213,11 +223,6 @@ function initMap(isPreview) {
   });
   map.on('moveend', function () {
     updateUrlMapProps(false);
-  });
-
-  geocoder.on('result', function(e) {
-    console.log('result: ', e.result.center);
-    map.panTo(e.result.center);
   });
 }
 
