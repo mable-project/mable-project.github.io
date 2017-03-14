@@ -66,6 +66,11 @@ document.getElementById('switch-view-btn').onclick = function () {
   }
 };
 
+// [DOWNLOAD] button onclick event
+document.getElementById('download-img-btn').onclick = function () {
+  getTablePNG();
+};
+
 // get map props from URL hash
 function getMapPropsfromUrl() {
   var center = [];
@@ -97,6 +102,7 @@ function setMapView() {
   activateGetStreetsViews();
   document.getElementById('export-area').style.display = 'flex';
   document.getElementById('export-btn').style.display = 'flex';
+  document.getElementById('download-img-btn').classList.add('disabled');
   showBasemap();
   map.dragRotate.disable();
   map.setBearing(0);
@@ -116,6 +122,7 @@ function setTableView() {
     deactivateGetStreetsViews();
     document.getElementById('export-area').style.display = 'none';
     document.getElementById('export-btn').style.display = 'none';
+    document.getElementById('download-img-btn').classList.remove('disabled');
     hideBasemap();
     map.dragRotate.enable();
   }, 1000);
@@ -375,7 +382,7 @@ function getSVG() {
       case 4:
         if( xhr.status == 200 || xhr.status == 304 ) {
           var data = xhr.responseText;
-          downloadStreetsSVG(data, requestUrl);
+          downloadImage(data, requestUrl, 'image/svg+xml');
           console.log('COMPLETE!');
           //console.log(data);
         } else {
@@ -389,10 +396,28 @@ function getSVG() {
   //xhr.abort();
 }
 
+// add streets into map with our OSM API
+function getTablePNG() {
+  document.getElementById('download-img-btn').innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download';
+  var imgSrc;
+  var bounds = currentExportBounds;
+  var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
+  var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
+  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=png&bg=http://mable.me/preview/img/table-bg.png';
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', requestUrl, true);
+  xhr.responseType = "arraybuffer";
+  xhr.onload = function() {
+    document.getElementById('download-img-btn').innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download';
+    downloadImage(this.response, requestUrl, 'image/png');
+  };
+  xhr.send();
+}
+
 // create and download SVG file
-function downloadStreetsSVG(content, url) {
-  var fileName = 'mable-sample.svg';
-  var blob = new Blob([content], { 'type': 'image/svg+xml' });
+function downloadImage(content, url, type) {
+  var fileName = 'mable';
+  var blob = new Blob([content], { 'type': type });
   var url = window.URL.createObjectURL(blob);
   var a = document.createElement('a');
   document.body.appendChild(a);
