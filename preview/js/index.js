@@ -403,7 +403,7 @@ function getTablePNG() {
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=png&bg=http://mable.me/preview/img/table-bg.png';
+  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=png&bg=1';
   var xhr = new XMLHttpRequest();
   xhr.open('GET', requestUrl, true);
   xhr.responseType = "arraybuffer";
