@@ -23,6 +23,7 @@ var streetsLayerProps = {
 var tableImageProps = {
   id: 'table-bg',
   url: 'img/table-bg.png',
+  //url: 'img/coaster-bg.png',
   opacity: 0.85
 };
 var minDownloadableZoom = 11;
