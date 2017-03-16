@@ -136,6 +136,7 @@ function setMapView() {
   document.getElementById(downloadImgBtnId).classList.add('disabled');
   showBasemap();
   map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
   map.setBearing(0);
   map.setPitch(0);
   map.fitBounds(currentExportScreenBounds, {
@@ -156,6 +157,7 @@ function setTableView() {
     document.getElementById(downloadImgBtnId).classList.remove('disabled');
     hideBasemap();
     map.dragRotate.enable();
+    map.touchZoomRotate.enableRotation();
   }, 1000);
 }
 
