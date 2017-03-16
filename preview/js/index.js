@@ -7,6 +7,26 @@ var currentExportBounds;
 var currentExportScreenBounds;
 var mableAPIDomain = 'https://dev.mable.me';
 var gotStreets = false;
+var exportAreaId = 'export-area';
+var exportAreaInnerId = 'export-area-inner';
+var exportBtnId = 'export-btn';
+var switchViewBtnId = 'switch-view-btn';
+var downloadImgBtnId = 'download-img-btn';
+
+// background image
+var bgType = 'table'; // table | coaster
+var backgroundImageUrl, osm2pngUrlParamsText, previewUrlParamsText;
+getBackgroundTypefromUrl();
+document.getElementById(exportAreaInnerId).classList.add(bgType);
+if (bgType === 'table') {
+  backgroundImageUrl = 'img/table-bg.png';
+  osm2pngUrlParamsText = '&format=png';
+  previewUrlParamsText = '&format=png&bg=1';
+} else if (bgType === 'coaster') {
+  backgroundImageUrl = 'img/coaster-bg.png';
+  osm2pngUrlParamsText = '&format=png&mask=2';
+  previewUrlParamsText = '&format=png&bg=2&mask=2';
+}
 
 // props to initialize this app
 var mapProps = {
@@ -20,10 +40,9 @@ var mapProps = {
 var streetsLayerProps = {
   id: 'osm2png'
 };
-var tableImageProps = {
+var backgroundImageProps = {
   id: 'table-bg',
-  url: 'img/table-bg.png',
-  //url: 'img/coaster-bg.png',
+  url: backgroundImageUrl,
   opacity: 0.85
 };
 var minDownloadableZoom = 11;
@@ -36,11 +55,11 @@ console.log('%c□□□□□□□□□□□□□□□□□□□□□�
 ////////////////////////// Map View //////////////////////////
 
 // [Get Streets] button onclick event
-document.getElementById('export-btn').onclick = function () {
+document.getElementById(exportBtnId).onclick = function () {
   var currentExportAreaBounds = getExportBounds();
   var zoom = map.getZoom();
 
-  document.getElementById('export-area-inner').classList.add('loading');
+  document.getElementById(exportAreaInnerId).classList.add('loading');
 
   if (currentExportAreaBounds._ne.lng >= -180 || currentExportAreaBounds._sw.lng <= 180 || zoom < minDownloadableZoom) {
     currentExportBounds = getExportBounds();
@@ -57,8 +76,8 @@ document.getElementById('export-btn').onclick = function () {
 };
 
 // [SWITCH VIEW] button onclick event
-document.getElementById('switch-view-btn').onclick = function () {
-  var visibility = map.getLayoutProperty(tableImageProps.id, 'visibility');
+document.getElementById(switchViewBtnId).onclick = function () {
+  var visibility = map.getLayoutProperty(backgroundImageProps.id, 'visibility');
   // switch a view (map <=> table)
   if (visibility === 'visible') {
     setMapView();
@@ -68,9 +87,20 @@ document.getElementById('switch-view-btn').onclick = function () {
 };
 
 // [DOWNLOAD] button onclick event
-document.getElementById('download-img-btn').onclick = function () {
+document.getElementById(downloadImgBtnId).onclick = function () {
   getTablePNG();
 };
+
+// get background type from URL hash
+function getBackgroundTypefromUrl() {
+  var urlParams = location.hash.substring(1).split('&');
+  for (var i=0; urlParams[i]; i++) {
+      var param = urlParams[i].split('=');
+      if (param[0] === 'bgType') {
+          bgType = param[1];
+      }
+  }
+}
 
 // get map props from URL hash
 function getMapPropsfromUrl() {
@@ -99,11 +129,11 @@ function getMapPropsfromUrl() {
 }
 
 function setMapView() {
-  map.setLayoutProperty(tableImageProps.id, 'visibility', 'none');
+  map.setLayoutProperty(backgroundImageProps.id, 'visibility', 'none');
   activateGetStreetsViews();
-  document.getElementById('export-area').style.display = 'flex';
-  document.getElementById('export-btn').style.display = 'flex';
-  document.getElementById('download-img-btn').classList.add('disabled');
+  document.getElementById(exportAreaId).style.display = 'flex';
+  document.getElementById(exportBtnId).style.display = 'flex';
+  document.getElementById(downloadImgBtnId).classList.add('disabled');
   showBasemap();
   map.dragRotate.disable();
   map.setBearing(0);
@@ -119,11 +149,11 @@ function setTableView() {
   });
   setTimeout(function () {
     updateUrlMapProps(true);
-    map.setLayoutProperty(tableImageProps.id, 'visibility', 'visible');
+    map.setLayoutProperty(backgroundImageProps.id, 'visibility', 'visible');
     deactivateGetStreetsViews();
-    document.getElementById('export-area').style.display = 'none';
-    document.getElementById('export-btn').style.display = 'none';
-    document.getElementById('download-img-btn').classList.remove('disabled');
+    document.getElementById(exportAreaId).style.display = 'none';
+    document.getElementById(exportBtnId).style.display = 'none';
+    document.getElementById(downloadImgBtnId).classList.remove('disabled');
     hideBasemap();
     map.dragRotate.enable();
   }, 1000);
@@ -147,19 +177,19 @@ function getUserLocation() {
 
 // update URL hash
 function updateUrlMapProps(isPreview) {
-  if (map.getLayoutProperty(tableImageProps.id, 'visibility') !== 'visible') {
+  if (map.getLayoutProperty(backgroundImageProps.id, 'visibility') !== 'visible') {
     var center = map.getCenter();
     var zoom = map.getZoom();
     location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
   }
   if (isPreview === true) {
-    location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&preview';
+    location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&bgType=' + bgType + '&preview';
   }
 }
 
 // check longitude if not exceeded |180|
 function checkLngOver180andZoom() {
-  if (map.getLayoutProperty(tableImageProps.id, 'visibility') !== 'visible') {
+  if (map.getLayoutProperty(backgroundImageProps.id, 'visibility') !== 'visible') {
     var currentExportAreaBounds = getExportBounds();
     var zoom = map.getZoom();
     if (currentExportAreaBounds._ne.lng < -180 || currentExportAreaBounds._sw.lng > 180 || zoom < minDownloadableZoom) {
@@ -237,7 +267,7 @@ function initMap(isPreview) {
 
 // calculate coordinates of bounds
 function getExportBounds() {
-  var boundsElem = document.getElementById('export-area-inner');
+  var boundsElem = document.getElementById(exportAreaInnerId);
   var rect = boundsElem.getBoundingClientRect();
 
   // pixel to lnglat
@@ -249,16 +279,16 @@ function getExportBounds() {
 
 // add streets into map with our OSM API
 function getStreetsPNGInBounds(bounds) {
-  document.getElementById('export-area-inner').classList.remove('loading');
-  document.getElementById('export-area-inner').classList.add('shutter');
-  document.getElementById('switch-view-btn').style.display = 'block';
+  document.getElementById(exportAreaInnerId).classList.remove('loading');
+  document.getElementById(exportAreaInnerId).classList.add('shutter');
+  document.getElementById(switchViewBtnId).style.display = 'block';
 
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
 
   map.addSource(streetsLayerProps.id, {
     'type': 'image',
-    'url': mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&format=png',
+    'url': mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road' + osm2pngUrlParamsText,
     'coordinates': bboxCoordinates
   });
   map.addLayer({
@@ -268,7 +298,7 @@ function getStreetsPNGInBounds(bounds) {
   });
 
   setTimeout(function () {
-    document.getElementById('export-area-inner').classList.remove('shutter');
+    document.getElementById(exportAreaInnerId).classList.remove('shutter');
   }, 800);
 }
 
@@ -285,20 +315,20 @@ function getTableImage(bounds) {
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
 
-  map.addSource(tableImageProps.id, {
+  map.addSource(backgroundImageProps.id, {
     'type': 'image',
-    'url': tableImageProps.url,
+    'url': backgroundImageProps.url,
     'coordinates': bboxCoordinates
   });
   map.addLayer({
-    'id': tableImageProps.id,
+    'id': backgroundImageProps.id,
     'type': 'raster',
-    'source': tableImageProps.id,
+    'source': backgroundImageProps.id,
     'layout': {
       'visibility': 'none'
     },
     'paint': {
-      'raster-opacity': tableImageProps.opacity
+      'raster-opacity': backgroundImageProps.opacity
     }
   });
 }
@@ -306,8 +336,8 @@ function getTableImage(bounds) {
 // re-add a table image into map
 function updateTableImage() {
   var bounds = getExportBounds();
-  map.removeLayer(tableImageProps.id);
-  map.removeSource(tableImageProps.id);
+  map.removeLayer(backgroundImageProps.id);
+  map.removeSource(backgroundImageProps.id);
   getTableImage(bounds);
 }
 
@@ -315,7 +345,7 @@ function updateTableImage() {
 function showBasemap() {
   var layers = map.style._layers;
   for (var key in layers) {
-    if (key !== streetsLayerProps.id && key !== tableImageProps.id) {
+    if (key !== streetsLayerProps.id && key !== backgroundImageProps.id) {
       map.setLayoutProperty(key, 'visibility', 'visible');
     }
   }
@@ -325,7 +355,7 @@ function showBasemap() {
 function hideBasemap() {
   var layers = map.style._layers;
   for (var key in layers) {
-    if (key !== streetsLayerProps.id && key !== tableImageProps.id) {
+    if (key !== streetsLayerProps.id && key !== backgroundImageProps.id) {
       map.setLayoutProperty(key, 'visibility', 'none');
     }
   }
@@ -333,18 +363,18 @@ function hideBasemap() {
 
 // show elements as bbox and button to get streets
 function activateGetStreetsViews() {
-  //document.getElementById('export-area').style.display = 'flex';
-  //document.getElementById('export-btn').style.display = 'block';
-  document.getElementById('export-area-inner').classList.remove('disabled');
-  document.getElementById('export-btn').classList.remove('disabled');
+  //document.getElementById(exportAreaId).style.display = 'flex';
+  //document.getElementById(exportBtnId).style.display = 'block';
+  document.getElementById(exportAreaInnerId).classList.remove('disabled');
+  document.getElementById(exportBtnId).classList.remove('disabled');
 }
 
 // hide elements as bbox and button to get streets
 function deactivateGetStreetsViews() {
-  //document.getElementById('export-area').style.display = 'none';
-  //document.getElementById('export-btn').style.display = 'none';
-  document.getElementById('export-area-inner').classList.add('disabled');
-  document.getElementById('export-btn').classList.add('disabled');
+  //document.getElementById(exportAreaId).style.display = 'none';
+  //document.getElementById(exportBtnId).style.display = 'none';
+  document.getElementById(exportAreaInnerId).classList.add('disabled');
+  document.getElementById(exportBtnId).classList.add('disabled');
 }
 
 getMapPropsfromUrl();
@@ -399,17 +429,17 @@ function getSVG() {
 
 // add streets into map with our OSM API
 function getTablePNG() {
-  document.getElementById('download-img-btn').innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download';
+  document.getElementById(downloadImgBtnId).innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download';
   var imgSrc;
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=png&bg=1';
+  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road' + previewUrlParamsText;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', requestUrl, true);
   xhr.responseType = "arraybuffer";
   xhr.onload = function() {
-    document.getElementById('download-img-btn').innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download';
+    document.getElementById(downloadImgBtnId).innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download';
     downloadImage(this.response, requestUrl, 'image/png');
   };
   xhr.send();
