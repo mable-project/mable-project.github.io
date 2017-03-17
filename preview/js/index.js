@@ -492,7 +492,11 @@ function removeBld() {
 }
 
 // experimental: add text on a map
-function addText(text, lng, lat, fontFamily, fontSize) {
+function addText(text, fontFamily, fontSize, color, xOffset, yOffset) {
+  var coordinates = [0, 0];
+  var urlParams = location.hash.substring(1).split('&');
+  var offset = [xOffset || 0, yOffset || 0];
+
   // create a DOM element for the marker
   var el = document.createElement('div');
   el.className = 'text-marker';
@@ -501,13 +505,21 @@ function addText(text, lng, lat, fontFamily, fontSize) {
   el.style.height = fontSize + 'px';
   el.style.fontFamily = fontFamily;
   el.style.fontSize = fontSize + 'px';
+  el.style.color = color;
   console.log(el);
   console.log(-fontSize / 2);
   console.log(-fontSize * el.innerText.length / 2);
 
+  for (var i=0; urlParams[i]; i++) {
+      var param = urlParams[i].split('=');
+      if (param[0] === 'map') {
+          var mapParamsArray = param[1].split('/');
+          coordinates = [mapParamsArray[2], mapParamsArray[1]];
+      }
+  }
+
   // add marker to map
-  //new mapboxgl.Marker(el, {offset: [-fontSize / 2, -fontSize * el.innerText.length / 2]})
-  new mapboxgl.Marker(el, {offset: [-fontSize * el.innerText.length / 4, -fontSize / 2]})
-    .setLngLat([lng, lat])
+  new mapboxgl.Marker(el, {offset: [-fontSize * el.innerText.length / 4 + offset[0], -fontSize / 2 + offset[1]]})
+    .setLngLat(coordinates)
     .addTo(map);
 }
