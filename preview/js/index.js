@@ -460,3 +460,31 @@ function downloadImage(content, url, type) {
   a.click();
   window.URL.revokeObjectURL(url);
 }
+
+function addBld() {
+  // the 'building' layer in the mapbox-streets vector source contains building-height
+  // data from OpenStreetMap.
+  map.addLayer({
+    'id': '3d-buildings',
+    'source': 'composite',
+    'source-layer': 'building',
+    'filter': ['==', 'extrude', 'true'],
+    'type': 'fill-extrusion',
+    'paint': {
+        'fill-extrusion-color': '#54d08e',
+        'fill-extrusion-height': {
+            'type': 'identity',
+            'property': 'height'
+        },
+        'fill-extrusion-base': {
+            'type': 'identity',
+            'property': 'min_height'
+        },
+        'fill-extrusion-opacity': .5
+    }
+  });
+}
+
+function removeBld() {
+  map.removeLayer('3d-buildings');
+}
