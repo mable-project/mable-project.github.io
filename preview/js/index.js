@@ -461,6 +461,7 @@ function downloadImage(content, url, type) {
   window.URL.revokeObjectURL(url);
 }
 
+// add 3D buildings on a map
 function addBld() {
   // the 'building' layer in the mapbox-streets vector source contains building-height
   // data from OpenStreetMap.
@@ -485,6 +486,28 @@ function addBld() {
   });
 }
 
+// remove 3D buildings
 function removeBld() {
   map.removeLayer('3d-buildings');
+}
+
+// experimental: add text on a map
+function addText(text, lng, lat, fontFamily, fontSize) {
+  // create a DOM element for the marker
+  var el = document.createElement('div');
+  el.className = 'text-marker';
+  el.innerHTML = text;
+  el.style.width = '100%';
+  el.style.height = fontSize + 'px';
+  el.style.fontFamily = fontFamily;
+  el.style.fontSize = fontSize + 'px';
+  console.log(el);
+  console.log(-fontSize / 2);
+  console.log(-fontSize * el.innerText.length / 2);
+
+  // add marker to map
+  //new mapboxgl.Marker(el, {offset: [-fontSize / 2, -fontSize * el.innerText.length / 2]})
+  new mapboxgl.Marker(el, {offset: [-fontSize * el.innerText.length / 4, -fontSize / 2]})
+    .setLngLat([lng, lat])
+    .addTo(map);
 }
