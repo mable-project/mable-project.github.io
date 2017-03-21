@@ -255,6 +255,9 @@ function initMap(isPreview) {
       $('#export-btn').tooltip('destroy');
       setTableView();
     }
+
+    // for SotM 2017!!
+    addPictureMarker('http://2017.stateofthemap.org/img/logo-dark.svg', 80, 120, 0, 0);
   });
 
   /*map.on('dragend', updateUrlMapProps);
@@ -506,9 +509,6 @@ function addText(text, fontFamily, fontSize, color, xOffset, yOffset) {
   el.style.fontFamily = fontFamily;
   el.style.fontSize = fontSize + 'px';
   el.style.color = color;
-  console.log(el);
-  console.log(-fontSize / 2);
-  console.log(-fontSize * el.innerText.length / 2);
 
   for (var i=0; urlParams[i]; i++) {
       var param = urlParams[i].split('=');
@@ -520,6 +520,31 @@ function addText(text, fontFamily, fontSize, color, xOffset, yOffset) {
 
   // add marker to map
   new mapboxgl.Marker(el, {offset: [-fontSize * el.innerText.length / 4 + offset[0], -fontSize / 2 + offset[1]]})
+    .setLngLat(coordinates)
+    .addTo(map);
+}
+
+// experimental: add a picture marker on a map
+function addPictureMarker(imgUrl, height, width, xOffset, yOffset) {
+  var coordinates = [0, 0];
+  var urlParams = location.hash.substring(1).split('&');
+  var offset = [xOffset || 0, yOffset || 0];
+
+  // create a DOM element for the marker
+  var el = document.createElement('div');
+  el.className = 'picture-marker';
+  el.innerHTML = '<img src="' + imgUrl + '" width="' + width + '" height="' + height + '">';
+
+  for (var i=0; urlParams[i]; i++) {
+      var param = urlParams[i].split('=');
+      if (param[0] === 'map') {
+          var mapParamsArray = param[1].split('/');
+          coordinates = [mapParamsArray[2], mapParamsArray[1]];
+      }
+  }
+
+  // add marker to map
+  new mapboxgl.Marker(el, {offset: [-width / 2 + offset[0], -height / 2 + offset[1]]})
     .setLngLat(coordinates)
     .addTo(map);
 }
