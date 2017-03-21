@@ -257,7 +257,7 @@ function initMap(isPreview) {
     }
 
     // for SotM 2017!!
-    addPictureMarker('http://2017.stateofthemap.org/img/logo-dark.svg', 80, 120, 0, 0);
+    addPictureMarker('http://2017.stateofthemap.org/img/logo-dark.svg', 80, 120, 0, 0, [139.93588, 37.484359999999995]);
   });
 
   /*map.on('dragend', updateUrlMapProps);
@@ -525,7 +525,7 @@ function addText(text, fontFamily, fontSize, color, xOffset, yOffset) {
 }
 
 // experimental: add a picture marker on a map
-function addPictureMarker(imgUrl, height, width, xOffset, yOffset) {
+function addPictureMarker(imgUrl, height, width, xOffset, yOffset, coords) {
   var coordinates = [0, 0];
   var urlParams = location.hash.substring(1).split('&');
   var offset = [xOffset || 0, yOffset || 0];
@@ -535,12 +535,16 @@ function addPictureMarker(imgUrl, height, width, xOffset, yOffset) {
   el.className = 'picture-marker';
   el.innerHTML = '<img src="' + imgUrl + '" width="' + width + '" height="' + height + '">';
 
-  for (var i=0; urlParams[i]; i++) {
-      var param = urlParams[i].split('=');
-      if (param[0] === 'map') {
-          var mapParamsArray = param[1].split('/');
-          coordinates = [mapParamsArray[2], mapParamsArray[1]];
-      }
+  if (coords !== undefined) {
+    coordinates = coords;
+  } else {
+    for (var i=0; urlParams[i]; i++) {
+        var param = urlParams[i].split('=');
+        if (param[0] === 'map') {
+            var mapParamsArray = param[1].split('/');
+            coordinates = [mapParamsArray[2], mapParamsArray[1]];
+        }
+    }
   }
 
   // add marker to map
