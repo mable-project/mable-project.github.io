@@ -177,6 +177,11 @@ header .header-content .header-content-inner h1 {
   margin-bottom: 30px;
   font-size: 30px;
 }
+header .header-content .header-content-inner h1.title-heading {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 90px;
+}
 header .header-content .header-content-inner .list-badges {
   margin-bottom: 25px;
 }

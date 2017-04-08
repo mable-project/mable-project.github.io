@@ -143,18 +143,34 @@ body {
   transition: all .4s;
 }
 #export-btn {
-  font-size: 44px;
-  color: rgba(84,208,142,0.8);
-  transition: all .4s;
-  cursor: pointer;
+  background-color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(46,169,104,0.4);
+  border-radius: 25px;
+  padding: 6px;
   pointer-events: auto;
+  cursor: pointer;
+  transition: all .4s;
+}
+#export-btn-icon {
+  font-size: 28px;
+  margin: 4px;
+  color: rgba(46,169,104,0.7);
+  transition: all .4s;
 }
 #export-btn.disabled {
   color: rgba(0,0,0,0.1);
   pointer-events: none;
 }
+#export-btn.disabled > #export-btn-icon {
+  color: rgba(0,0,0,0.1);
+  pointer-events: none;
+}
 #export-btn:hover {
-  color: rgba(46,169,104,0.8);
+  background-color: rgba(84,208,142,0.8);
+  border: 1px solid rgba(46,169,104,0);
+}
+#export-btn:hover > #export-btn-icon {
+  color: rgba(255,255,255,0.9);
 }
 @media (max-width: 600px) {
   #export-btn-area-inner {
@@ -200,11 +216,11 @@ button.disabled {
 .tooltip-inner {
   font-family: Lato, Helvetica, Arial, sans-serif;
   /*background-color: #646af5;*/
-  background-color: rgba(46,169,104,0.8);
+  background-color: rgba(0,0,0,0.5);
   padding: 10px;
 }
 .tooltip.bottom .tooltip-arrow {
-  border-bottom-color: rgba(46,169,104,0.8);
+  border-bottom-color: rgba(0,0,0,0.5);
 }
 .tooltip.bottom {
   margin-bottom: -12px;
