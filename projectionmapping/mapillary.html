@@ -87,7 +87,7 @@
         var streetsLayerId = 'osm2svg-streets';
         var mapillaryMarkerLayerId = 'mapillary-marker';
         var defaultLocation = [139.69993333561428, 35.65948608243135];
-        var mapillaryMarker;
+        var mapillaryMarker1, mapillaryMarker2, markerElem1, markerElem2;
 
         var streets = 'https://gist.githubusercontent.com/anonymous/05373489139c88ffea61c8ae66811b42/raw/6ac32bdd6cabedf66a1fde5f5c1a9dbfabd9c29b/overpass.geojson';
 
@@ -124,14 +124,25 @@
                 }
             });
 
-            var width = 48;
-            var height = 48;
-            var el = document.createElement('div');
-            el.className = 'marker';
-            el.innerHTML = '<img src="img/ripple.gif" width="' + width + '" height="' + height + '">';
+            var width = 74;
+            var height = 74;
+            markerElem1 = document.createElement('div');
+            markerElem1.className = 'marker';
+            markerElem1.innerHTML = '<img src="img/ripple.gif" width="' + width + '" height="' + height + '">';
+            markerElem1.style.transform = 'rotate(0)';
+
+            width = 24;
+            height = 32;
+            markerElem2 = document.createElement('div');
+            markerElem2.className = 'marker';
+            markerElem2.innerHTML = '<img id="marker-img" src="img/arrow.png" width="' + width + '" height="' + height + '">';
+            markerElem2.style.transform = 'rotate(0)';
 
             // add marker to map
-            mapillaryMarker = new mapboxgl.Marker(el, {offset: [-24, -24]})
+            mapillaryMarker1 = new mapboxgl.Marker(markerElem1, {offset: [-37, -37]})
+                .setLngLat(defaultLocation)
+                .addTo(map);
+            mapillaryMarker2 = new mapboxgl.Marker(markerElem2, {offset: [-12, -16]})
                 .setLngLat(defaultLocation)
                 .addTo(map);
 
@@ -139,7 +150,9 @@
                 console.log(snapshot.val());
                 var location = [snapshot.val().longitude, snapshot.val().latitude];
                 var bearing = snapshot.val().bearing;
-                mapillaryMarker.setLngLat(location);
+                document.getElementById('marker-img').style.transform = 'rotate(' + bearing + 'deg)';
+                mapillaryMarker1.setLngLat(location);
+                mapillaryMarker2.setLngLat(location);
                 map.flyTo({ center: location });
             });
         });
@@ -149,30 +162,6 @@
             //map.removeSource(streetsLayerId);
             //getGeoJSONInBounds(map.getBounds());
         });
-
-        function updateMapillaryLocation(location) {
-            map.addLayer({
-                "id": mapillaryMarkerLayerId,
-                "type": "symbol",
-                "source": {
-                    "type": "geojson",
-                    "data": {
-                        "type": "FeatureCollection",
-                        "features": [{
-                            "type": "Feature",
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": location
-                            }
-                        }]
-                    }
-                },
-                "layout": {
-                    "icon-image": "mapillary-marker",
-                    "icon-size": 0.25
-                }
-            });
-        }
 
         function getGeoJSONInBounds(bounds) {
             var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
