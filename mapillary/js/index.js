@@ -22,6 +22,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/streets-v8',
     center: props.location,
     zoom: 15,
+    pitch: 60
 });
 
 var markerSource = {
