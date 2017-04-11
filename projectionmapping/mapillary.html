@@ -140,6 +140,7 @@
                 var location = [snapshot.val().longitude, snapshot.val().latitude];
                 var bearing = snapshot.val().bearing;
                 mapillaryMarker.setLngLat(location);
+                map.flyTo({ center: location });
             });
         });
 

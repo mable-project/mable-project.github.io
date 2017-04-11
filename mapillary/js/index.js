@@ -12,6 +12,9 @@ var props = {};
 props.bearing = 0;
 props.location = [139.69993333561428, 35.65948608243135];
 
+var pKey = 'e-1bXMnDxzD4F6ubkQoJJQ';
+getPKeyfromUrl();
+
 console.log('%c□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□\r\n□■□□□□□■□□□□□□□□□□□■■□□□□□□□□■■■■□□□□□□□□□□□□\r\n□■■□□□■■□□□□□□□□□□□□■□□□□□□□□□□□■□□□□□□□□□□□□\r\n□■□■□■□■□□□□□□□□□□□□■□□□□□□□□□□□■□□□□□□□□□□□□\r\n□■□■□■□■□□□□□□□□□□□□■□□□□□□□□□□□■□□□□□□□□□□□□\r\n□■□■□■□■□□□□■■■■□□□□■■■■□□□□□□□□■□□□□□□■■■□□□\r\n□■□□■□□■□□□■□□□□■□□□■□□□■□□□□□□□■□□□□□■□□□■□□\r\n□■□□■□□■□□□□□□□□■□□□■□□□□■□□□□□□■□□□□■□□□□□■□\r\n□■□□■□□■□□□□■■■■■□□□■□□□□■□□□□□□■□□□□■■■■■■■□\r\n□■□□□□□■□□□■□□□□■□□□■□□□□■□□□□□□■□□□□■□□□□□□□\r\n□■□□□□□■□□■□□□□□■□□□■□□□□■□□□□□□■□□□□■□□□□□□□\r\n□■□□□□□■□□■□□□□□■□□□■□□□□■□□□□□□■□□□□■□□□□□■□\r\n□■□□□□□■□□■□□□□■■□□□■□□□■□□□□□□□■□□□□□■□□□□■□\r\n□■■□□□■■□□□■■■■□■■□□■■■■□□□□■■■■■■■■□□□■■■■□□\r\n□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□\r\n\r\nJoin us? mable.proj@gmail.com', 'font-family:Catamaran,Helvetica,Arial,sans-serif;font-size:12px;color:#54d08e;');
 
 var map = new mapboxgl.Map({
@@ -48,7 +51,7 @@ map.on('style.load', function() {
 var mly = new Mapillary.Viewer(
     'mly',
     'bEN2c0tOTS1Oc1FTWWxVbm1QYVRnZzo2ZjFiZjA5ZTczOTQzYjVm',
-    'e-1bXMnDxzD4F6ubkQoJJQ');
+    pKey);
 
 var marker;
 mly.on(Mapillary.Viewer.nodechanged, function (node) {
@@ -84,3 +87,16 @@ window.addEventListener('resize', function() { mly.resize(); map.resize(); });
 document.getElementById('goto-preview-btn').onclick = function () {
   location.href = '/preview/#map=12.5/' + props.location[1] + '/' + props.location[0];
 };
+
+
+
+// get map props from URL hash
+function getPKeyfromUrl() {
+  var urlParams = location.hash.substring(1).split('&');
+  for (var i=0; urlParams[i]; i++) {
+      var param = urlParams[i].split('=');
+      if (param[0] === 'pKey') {
+          pKey = param[1];
+      }
+  }
+}
