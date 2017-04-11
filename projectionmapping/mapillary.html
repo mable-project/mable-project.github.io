@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Making new interface and exerience for people on a table top with OpenStreetMap.">
+    <meta name="author" content="Mable Project Team">
+    <!-- Facebook -->
+    <meta property="og:url"           content="http://mable.me/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Mable Projection Mapping - Mapillary" />
+    <meta property="og:description"   content="" />
+    <meta property="og:image"         content="" />
+
+    <title>Mable Projection Mapping - Mapillary</title>
+
+    <link rel="icon" href="../img/mable.ico">
+
+    <!-- Mapbox GL JS -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.js'></script>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDKJs6lnkCYECZsLDMApgzKc2aOhKnx2cQ",
+            authDomain: "mable-mapillary.firebaseapp.com",
+            databaseURL: "https://mable-mapillary.firebaseio.com",
+            projectId: "mable-mapillary",
+            storageBucket: "mable-mapillary.appspot.com",
+            messagingSenderId: "48485016897"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            height: 100%;
+            background-color: black;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #map { position: relative; height: 600px; width: 600px; }
+        .mapboxgl-canvas { opacity: 0.5 }
+    </style>
+
+</head>
+
+<body>
+
+    <main>
+        <div id='map'></div>
+    </main>
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Maptastic JS -->
+    <script src="lib/maptastic.min.js"></script>
+
+    <script>
+        'use strict';
+
+        Maptastic('map');
+
+        // token for Mapbox GL JS
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbmVjYXZhbGllcmUiLCJhIjoib0VGcnZCOCJ9.RY2Dhob09djoIsObhsJMvA';
+
+        // Firebase Connection
+        var db = firebase.database();
+        var dbRef = db.ref("/camera");
+
+        var mableAPIDomain = 'https://dev.mable.me';
+        var streetsLayerId = 'osm2svg-streets';
+        var mapillaryMarkerLayerId = 'mapillary-marker';
+        var defaultLocation = [139.69993333561428, 35.65948608243135];
+        var mapillaryMarker;
+
+        var streets = 'https://gist.githubusercontent.com/anonymous/05373489139c88ffea61c8ae66811b42/raw/6ac32bdd6cabedf66a1fde5f5c1a9dbfabd9c29b/overpass.geojson';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v9',
+            center: defaultLocation,
+            zoom: 12.5
+        });
+
+        map.on('load', function () {
+            //getGeoJSONInBounds(map.getBounds());
+
+            var mapillarySource = {
+                type: 'vector',
+                tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+                minzoom: 0,
+                maxzoom: 14
+            };
+            map.addSource('mapillary', mapillarySource);
+            map.addLayer({
+                'id': 'mapillary',
+                'type': 'line',
+                'source': 'mapillary',
+                'source-layer': 'mapillary-sequences',
+                'layout': {
+                    'line-cap': 'round',
+                    'line-join': 'round'
+                },
+                'paint': {
+                    'line-opacity': 0.6,
+                    'line-color': 'rgb(255, 100, 0)',
+                    'line-width': 2
+                }
+            });
+
+            var width = 48;
+            var height = 48;
+            var el = document.createElement('div');
+            el.className = 'marker';
+            el.innerHTML = '<img src="img/ripple.gif" width="' + width + '" height="' + height + '">';
+
+            // add marker to map
+            mapillaryMarker = new mapboxgl.Marker(el, {offset: [-24, -24]})
+                .setLngLat(defaultLocation)
+                .addTo(map);
+
+            dbRef.on('value', function (snapshot) {
+                console.log(snapshot.val());
+                var location = [snapshot.val().longitude, snapshot.val().latitude];
+                var bearing = snapshot.val().bearing;
+                mapillaryMarker.setLngLat(location);
+            });
+        });
+
+        map.on('moveend', function () {
+            //map.removeLayer(streetsLayerId);
+            //map.removeSource(streetsLayerId);
+            //getGeoJSONInBounds(map.getBounds());
+        });
+
+        function updateMapillaryLocation(location) {
+            map.addLayer({
+                "id": mapillaryMarkerLayerId,
+                "type": "symbol",
+                "source": {
+                    "type": "geojson",
+                    "data": {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": location
+                            }
+                        }]
+                    }
+                },
+                "layout": {
+                    "icon-image": "mapillary-marker",
+                    "icon-size": 0.25
+                }
+            });
+        }
+
+        function getGeoJSONInBounds(bounds) {
+            var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
+
+            map.addSource(streetsLayerId, {
+                "type": "geojson",
+                //"data": mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&format=json',
+                "data": streets,
+            });
+
+            map.addLayer({
+                "id": streetsLayerId,
+                "type": "line",
+                "source": streetsLayerId,
+                "layout": {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                "paint": {
+                    "line-color": "rgb(255, 255, 255)",
+                    "line-width": 4
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
