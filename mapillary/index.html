@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Making new interface and exerience for people on a table top with OpenStreetMap.">
+    <meta name="author" content="Mable Project Team">
+    <!-- Facebook -->
+    <meta property="og:url"           content="http://mable.me/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Mable Mapillary" />
+    <meta property="og:description"   content="" />
+    <meta property="og:image"         content="" />
+
+    <title>Mable Mapillary</title>
+
+    <link rel="icon" href="../img/mable.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../vendor/device-mockups/device-mockups.min.css">
+    <link rel="stylesheet" href="../vendor/mapskin/css/mapskin.min.css">
+
+    <!-- Theme CSS -->
+    <link href="../css/new-age.min.css" rel="stylesheet">
+
+    <!-- Mapbox GL JS -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.js'></script>
+
+    <!-- Mapillary JS -->
+    <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
+    <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDKJs6lnkCYECZsLDMApgzKc2aOhKnx2cQ",
+            authDomain: "mable-mapillary.firebaseapp.com",
+            databaseURL: "https://mable-mapillary.firebaseio.com",
+            projectId: "mable-mapillary",
+            storageBucket: "mable-mapillary.appspot.com",
+            messagingSenderId: "48485016897"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- Mable Preview CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar affix navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="../"><img src="../img/mable.png" style="height:60px;display:inline;margin-right:15px;margin-top:-20px;"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li>
+                        <button id='export-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-globe" aria-hidden="true"></i> Get Streets</button>
+                    </li>-->
+                    <li>
+                        <button id='goto-preview-btn' class="btn btn-outline btn-xl btn-mable-preview"><i class="fa fa-eye" aria-hidden="true"></i> Preview</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <div id='mly'></div>
+    <div id='map'></div>
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--<script src="../js/new-age.min.js"></script>-->
+
+    <script src='https://npmcdn.com/@turf/turf@3.5.1/turf.min.js'></script>
+    <script src="js/index.js"></script>
+
+</body>
+
+</html>
