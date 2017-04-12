@@ -44,16 +44,6 @@ var markerSource = {
 var popup = new mapboxgl.Popup();
 
 map.on('style.load', function() {
-    map.addSource('markers', markerSource);
-    map.addLayer({
-        id: 'markers',
-        type: 'symbol',
-        source: 'markers',
-        layout: {
-            'icon-image': '{marker-symbol}-15',
-        },
-    });
-
     var mapillarySource = {
         type: 'vector',
         tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
@@ -75,6 +65,16 @@ map.on('style.load', function() {
             'line-color': '#54d08e',
             'line-width': 5
         }
+    });
+
+    map.addSource('markers', markerSource);
+    map.addLayer({
+        id: 'markers',
+        type: 'symbol',
+        source: 'markers',
+        layout: {
+            'icon-image': '{marker-symbol}-15',
+        },
     });
 });
 
