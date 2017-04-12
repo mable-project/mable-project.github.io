@@ -159,6 +159,7 @@ header {
   overflow-y: hidden;
   background: url("../img/bg.jpg");
   background: url("../img/bg.jpg") no-repeat fixed center;
+  -webkit-background-size: cover;
   background-size: cover;
   color: white;
 }
