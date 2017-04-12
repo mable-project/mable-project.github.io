@@ -6,6 +6,31 @@ body {
 #mly { position: absolute; height: 66%; width: 100%; top: 0; right: 0; bottom: 0;  }
 #map { position: absolute; height: 34%; width: 100%; top: 66%; }
 
+
+#popup-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#popup-content.loading > #img-on-popup {
+  opacity: 0.6;
+}
+#img-on-popup {
+  background-image: url("../img/black-bg.png");
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.4s;
+}
+#img-on-popup:hover {
+  opacity: 0.6;
+}
+#popup-content.loading > #loading-on-popup {
+  background-image: url("../img/oval.svg");
+  position: absolute;
+  width: 38px;
+  height: 38px;
+}
+
 .btn-mable-preview {
   margin: 5px 5px 5px 12px;
   padding: 11px 45px;
