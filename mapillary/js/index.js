@@ -110,10 +110,11 @@ mly.on(Mapillary.Viewer.nodechanged, function (node) {
     };
 
     map.getSource('markers').setData(data);
-    console.log(lngLat);
+    console.log(node.key);
     props.location = lngLat;
     dbRef.set({ bearing: props.bearing, longitude: lngLat[0], latitude: lngLat[1] });
     map.flyTo({ center: lngLat });
+    location.hash = 'pKey=' + node.key;
 });
 
 mly.on(Mapillary.Viewer.bearingchanged, function (bearing) {
@@ -128,6 +129,7 @@ function moveToClickPoint() {
     console.log('click img');
     document.getElementById('popup-content').classList.add('loading');
     mly.moveToKey(clickPointPKey).then(function (n) {
+        location.hash = 'pKey=' + clickPointPKey;
         popup.remove();
     });
 }
