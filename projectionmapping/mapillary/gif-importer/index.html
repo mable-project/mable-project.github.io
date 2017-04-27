@@ -17,7 +17,7 @@
 
     <title>Mable Projection Mapping - Mapillary</title>
 
-    <link rel="icon" href="../img/mable.ico">
+    <link rel="icon" href="../../img/mable.ico">
 
     <!-- Mapbox GL JS -->
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
@@ -41,20 +41,12 @@
     </script>
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            height: 100%;
-            background-color: black;
-        }
-        main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #map { position: relative; height: 600px; width: 600px; }
-        .mapboxgl-canvas { opacity: 0.5 }
+        body { margin:0; padding:0; font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; background-color: black; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        .mapboxgl-canvas { opacity: 0.5; }
+        .marker { z-index: 99999; }
+        .mapboxgl-popup { z-index: 999999; }
+        .mapboxgl-popup-close-button { display: none };
     </style>
 
 </head>
@@ -66,15 +58,10 @@
     </main>
 
     <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-
-    <!-- Maptastic JS -->
-    <script src="lib/maptastic.min.js"></script>
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
 
     <script>
         'use strict';
-
-        Maptastic('map');
 
         // token for Mapbox GL JS
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhbmVjYXZhbGllcmUiLCJhIjoib0VGcnZCOCJ9.RY2Dhob09djoIsObhsJMvA';
@@ -82,6 +69,8 @@
         // Firebase Connection
         var db = firebase.database();
         var dbRef = db.ref("/camera");
+        var dbRefGIF = db.ref("/gif");
+        var currentClickLngLat = [0, 0];
 
         var mableAPIDomain = 'https://dev.mable.me';
         var streetsLayerId = 'osm2svg-streets';
@@ -98,9 +87,10 @@
             zoom: 12.5
         });
 
-        map.on('load', function () {
-            //getGeoJSONInBounds(map.getBounds());
+        var popup = new mapboxgl.Popup({ closeOnClick: false })
+            .setHTML('<input type="url" name="url" id="url-form"><button onClick="onClickSendButton()">Send</button>');
 
+        map.on('load', function () {
             var mapillarySource = {
                 type: 'vector',
                 tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
@@ -128,14 +118,14 @@
             var height = 74;
             markerElem1 = document.createElement('div');
             markerElem1.className = 'marker';
-            markerElem1.innerHTML = '<img src="img/ripple.gif" width="' + width + '" height="' + height + '">';
+            markerElem1.innerHTML = '<img src="../img/ripple.gif" width="' + width + '" height="' + height + '">';
             markerElem1.style.transform = 'rotate(0)';
 
             width = 24;
             height = 32;
             markerElem2 = document.createElement('div');
             markerElem2.className = 'marker';
-            markerElem2.innerHTML = '<img id="marker-img" src="img/arrow.png" width="' + width + '" height="' + height + '">';
+            markerElem2.innerHTML = '<img id="marker-img" src="../img/arrow.png" width="' + width + '" height="' + height + '">';
             markerElem2.style.transform = 'rotate(0)';
 
             // add marker to map
@@ -163,6 +153,15 @@
             //getGeoJSONInBounds(map.getBounds());
         });
 
+        map.on('click', function (evt) {
+            console.log(evt);
+            currentClickLngLat = evt.lngLat;
+            $('#url-form').val('');
+            
+            popup.setLngLat(evt.lngLat)
+                .addTo(map);
+        });
+
         function getGeoJSONInBounds(bounds) {
             var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
 
@@ -185,6 +184,28 @@
                     "line-width": 4
                 }
             });
+        }
+
+        function onClickSendButton() {
+            var url = $('#url-form').val();
+            sendGIFMarkerInfo(url, currentClickLngLat);
+            addGIFMarker(url, currentClickLngLat);
+        }
+
+        function addGIFMarker(url, lngLat) {
+            var width = 120;
+            var markerElem = document.createElement('div');
+            markerElem.className = 'gif-marker';
+            markerElem.innerHTML = '<img src="' + url + '" width="' + width + '">';
+
+            // add marker to map
+            var gifMarker = new mapboxgl.Marker(markerElem, {offset: [-37, -37]})
+                .setLngLat(lngLat)
+                .addTo(map);
+        }
+
+        function sendGIFMarkerInfo(url, lngLat) {
+            dbRefGIF.set({ url: url, longitude: lngLat.lng, latitude: lngLat.lat });
         }
     </script>
 
