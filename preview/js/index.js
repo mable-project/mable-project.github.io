@@ -162,7 +162,9 @@ function setTableView() {
 }
 
 function getUserLocation() {
-  if (navigator.geolocation) {
+  initMap(false);
+  // HTTPS 対応後に↑を削除、↓のコメントアウト外す
+  /*if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (pos) {
       console.log(pos.coords);
       mapProps.center = [pos.coords.longitude, pos.coords.latitude];
@@ -174,7 +176,7 @@ function getUserLocation() {
   } else {
     alert('現在地を取得できませんでした');
     initMap(false);
-  }
+  }*/
 }
 
 // update URL hash
