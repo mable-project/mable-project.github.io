@@ -295,7 +295,7 @@ function getStreetsPNGInBounds(bounds) {
 
   map.addSource(streetsLayerProps.id, {
     'type': 'image',
-    'url': mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road' + osm2pngUrlParamsText,
+    'url': mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&credit=no' + osm2pngUrlParamsText,
     'coordinates': bboxCoordinates
   });
   map.addLayer({
