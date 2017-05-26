@@ -1,233 +1,319 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>Mable Preview THREE Beta</title>
-<style>
-body {
-    margin: 0px;
-    overflow: hidden;
-    background: #fff;
-}
-#stage {
-	background: #fff;
-	overflow: hidden;
-}
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-<script src="https://threejs.org/examples/js/loaders/DDSLoader.js"></script>
-<script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
-<script src="https://threejs.org/examples/js/loaders/MTLLoader.js"></script>
-<script>
-window.addEventListener("DOMContentLoaded", function(){
-	
-	var viewAngle = 80;
-	var width  = window.innerWidth;
-	var height = window.innerHeight;
-	var near   = 1;
-	var far    = 5000;
 
-    var frameIndex = 0;
-    var frameNum = 600;
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Making new interface and exerience for people on a table top with OpenStreetMap.">
+    <meta name="author" content="Mable Project Team">
+    <!-- Facebook -->
+    <meta property="og:url"           content="http://mable.me/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Mable Preview" />
+    <meta property="og:description"   content="Discover and clip where streets you love from OpenStreetMap in order to preview a finished product!" />
+    <meta property="og:image"         content="http://mable.me/preview/img/preview/newyork.png" />
 
-    var tables = [];
-    var initOffsets = [
-        { x: 0, z: 0 },
-        { x: 220, z: 0 },
-        { x: 0, z: 220 },
-        { x: 220, z: 220 },
-        { x: 440, z: 0 },
-        { x: 440, z: 220 },
-    ];
-    var endOffsets = [
-        { x: 0, z: 0 },
-        { x: 200, z: 0 },
-        { x: 0, z: 200 },
-        { x: 200, z: 200 },
-        { x: 400, z: 0 },
-        { x: 400, z: 200 },
-    ];
-    /*var tableImageUrls = [
-        'https://dev.mable.me/osm2svg?bbox=-0.22138283126446368,51.50695240522887,-0.12743448046921912,51.565390189697894&width=709&style=road&format=png&bg=1',
-        'https://dev.mable.me/osm2svg?bbox=-0.1273928441912915,51.507051232981155,-0.03344449339329003,51.56548889064885&width=709&style=road&format=png&bg=1',
-        'https://dev.mable.me/osm2svg?bbox=-0.2212058083775048,51.4487852567205,-0.12725745757677487,51.507297643603664&width=709&style=road&format=png&bg=1',
-        'https://dev.mable.me/osm2svg?bbox=-0.12721765423606257,51.44889943835099,-0.033269303432547304,51.5074116788509&width=709&style=road&format=png&bg=1',
-        'https://dev.mable.me/osm2svg?bbox=-0.03337685597205109,51.5075570482544,0.06034335202249963,51.56585224021376&width=709&style=road&format=png&bg=1',
-        'https://dev.mable.me/osm2svg?bbox=-0.03338291550443273,51.449266838449944,0.06033729248747477,51.507636609708555&width=709&style=road&format=png&bg=1'
-    ];*/
-    var tableImageUrls = [
-        'img/table1.png',
-        'img/table2.png',
-        'img/table3.png',
-        'img/table4.png',
-        'img/table5.png',
-        'img/table6.png'
-    ];
-    var bgTableImageUrl = '../img/table-bg.png';
-    var cup3DObjFileName = 'Cup_1';
-	
-	// renderer (canvas)
-	var renderer = new THREE.WebGLRenderer();
-	renderer.setSize(width, height);
-    renderer.setClearColor(new THREE.Color(0xeeeeee));
-	document.getElementById('stage').appendChild(renderer.domElement);
-	
-	// create a scene
-	var scene = new THREE.Scene();
-	
-	// set a camera
-	var aspect = width / height;
-	var camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
-	camera.position.z = 500;
-    camera.fov = 45;
-    camera.updateProjectionMatrix();
-	scene.add(camera);
-	
-	// set a directional light
-	var directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-	directionalLight.position.z = 3;
-	scene.add(directionalLight);
+    <title>Mable Preview</title>
 
-	// TableTop
-    function createTopMesh(width, height, depth, widthSegments, heightSegments, depthSegments, streetsImageUrl, offsetX, offsetZ, tableArray) {
-        var geometry = new THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments);
-        const texLoader = new THREE.TextureLoader();
-        texLoader.crossOrigin = '*';
-        texLoader.load(streetsImageUrl, 
-            texture => { // onLoad
-                var material = [
-                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // right
-                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // left
-                    new THREE.MeshBasicMaterial({ map: texture }), // top
-                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // bottom
-                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // back
-                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // front
-                ];
-                var mesh = new THREE.Mesh(geometry, material);
-                mesh.position.set(offsetX, 0, offsetZ);
-                scene.add(mesh);
-                tableArray.push(mesh);
-            },
-            xhr => { // onProgress
-                console.log(xhr);
-            },
-            xhr => { // onError
-                console.log(xhr);
-            }
-        );
-    }
-	
-    // Legs
-    function createLegsMesh(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, offSetArray) {
-        var geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
-        var material = new THREE.MeshLambertMaterial({ color: 0x111111 });
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(offSetArray[0], offSetArray[1], offSetArray[2]);
-	    scene.add(mesh);
-        return mesh;
-    }
+    <link rel="icon" href="../../img/mable.ico">
 
-    // 3D Model
-    function add3DModel(fileName, offsetX, offsetZ, scale) {
-        THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        var mtlLoader = new THREE.MTLLoader();
-        mtlLoader.setPath( 'obj/' );
-        mtlLoader.load(fileName + '.mtl', function( materials ) {
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 
-            materials.preload();
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendor/device-mockups/device-mockups.min.css">
+    <link rel="stylesheet" href="../../vendor/mapskin/css/mapskin.min.css">
 
-            var objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials( materials );
-            objLoader.setPath( 'obj/' );
-            objLoader.load(fileName + '.obj', function ( object ) {
-                object.scale.set(scale, scale, scale);
-                object.position.set(offsetX, 4, offsetZ);
-                scene.add( object );
-            });
-            //}, onProgress, onError );
-        });
-    }
+    <!-- Theme CSS -->
+    <link href="../../css/new-age.min.css" rel="stylesheet">
 
-    function addTable(streetsImageUrl, offsetX, offsetZ) {
-        var table = [];
-        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, 90 + offsetZ]));
-        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, -90 + offsetZ]));
-        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ]));
-        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ]));
-        createTopMesh(200, 8, 200, 1, 1, 1, streetsImageUrl, offsetX, offsetZ, table);
-        return table;
-    }
+    <!-- Mable Preview CSS -->
+    <link rel="stylesheet" href="../css/style.css">
 
-    tableImageUrls.forEach(function (url, i) {
-        tables.push(addTable(url, initOffsets[i].x, initOffsets[i].z));
-    });
-    add3DModel(cup3DObjFileName, -50, -30, 250);
-
-    // control
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    function render() {
-        requestAnimationFrame(render);
-        renderer.render(scene,camera);
-        controls.update();
-    }
-
-    function animate() {
-        frameIndex++;
-        if (frameIndex < frameNum) {
-            requestAnimationFrame(animate);
-            tables.forEach(function (table, i) {
-                var offsetX = initOffsets[i].x - (initOffsets[i].x - endOffsets[i].x) / frameNum * frameIndex;
-                var offsetZ = initOffsets[i].z - (initOffsets[i].z - endOffsets[i].z) / frameNum * frameIndex;
-                table.forEach(function (p, j) {
-                    var endX, endY, endZ;
-                    // ここは脚の位置、数、構成次第で変数が変わる
-                    switch (j) {
-                        case 0:
-                            endX = 90 + offsetX;
-                            endY = -75;
-                            endZ = 90 + offsetZ;
-                            break;
-                        case 1:
-                            endX = 90 + offsetX;
-                            endY = -75;
-                            endZ = -90 + offsetZ;
-                            break;
-                        case 2:
-                            endX = -90 + offsetX;
-                            endY = -75;
-                            endZ = 90 + offsetZ;
-                            break;
-                        case 3:
-                            endX = -90 + offsetX;
-                            endY = -75;
-                            endZ = -90 + offsetZ;
-                            break;
-                        case 4:
-                            endX = offsetX;
-                            endY = 0;
-                            endZ = offsetZ;
-                            break;
-                    }
-                    p.position.set(endX, endY, endZ);
-                });
-            });
-            renderer.clear();
-            renderer.render(scene, camera);
+    <style>
+        #stage {
+            position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0;
         }
-    }
+    </style>
 
-    render();
-    setTimeout(function () {
-        animate();
-    }, 3000);
-}, false);
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/DDSLoader.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/MTLLoader.js"></script>
+    <script>
+    window.addEventListener("DOMContentLoaded", function(){
+
+        console.log(document.getElementById('stage'));
+        var viewAngle = 80;
+        var canvasWidth  = window.innerWidth;
+        var canvasHeight = window.innerHeight;
+        var near   = 1;
+        var far    = 5000;
+        //console.log(width, height);
+
+        var frameIndex = 0;
+        var frameNum = 600;
+
+        var tables = [];
+        var initOffsets = [
+            { x: 0, z: 0 },
+            { x: 220, z: 0 },
+            { x: 0, z: 220 },
+            { x: 220, z: 220 },
+            { x: 440, z: 0 },
+            { x: 440, z: 220 },
+        ];
+        var endOffsets = [
+            { x: 0, z: 0 },
+            { x: 200, z: 0 },
+            { x: 0, z: 200 },
+            { x: 200, z: 200 },
+            { x: 400, z: 0 },
+            { x: 400, z: 200 },
+        ];
+        /*var tableImageUrls = [
+            'https://dev.mable.me/osm2svg?bbox=-0.22138283126446368,51.50695240522887,-0.12743448046921912,51.565390189697894&width=709&style=road&format=png&bg=1',
+            'https://dev.mable.me/osm2svg?bbox=-0.1273928441912915,51.507051232981155,-0.03344449339329003,51.56548889064885&width=709&style=road&format=png&bg=1',
+            'https://dev.mable.me/osm2svg?bbox=-0.2212058083775048,51.4487852567205,-0.12725745757677487,51.507297643603664&width=709&style=road&format=png&bg=1',
+            'https://dev.mable.me/osm2svg?bbox=-0.12721765423606257,51.44889943835099,-0.033269303432547304,51.5074116788509&width=709&style=road&format=png&bg=1',
+            'https://dev.mable.me/osm2svg?bbox=-0.03337685597205109,51.5075570482544,0.06034335202249963,51.56585224021376&width=709&style=road&format=png&bg=1',
+            'https://dev.mable.me/osm2svg?bbox=-0.03338291550443273,51.449266838449944,0.06033729248747477,51.507636609708555&width=709&style=road&format=png&bg=1'
+        ];*/
+        var tableImageUrls = [
+            'img/table1.png',
+            'img/table2.png',
+            'img/table3.png',
+            'img/table4.png',
+            'img/table5.png',
+            'img/table6.png'
+        ];
+        var bgTableImageUrl = '../img/table-bg.png';
+        var cup3DObjFileName = 'Cup_1';
+
+        var animateBtnId = 'animate-btn';
+        var animateBtn = document.getElementById(animateBtnId);
+
+        animateBtn.onclick = function () {
+            animateBtn.classList.add('disabled');
+            frameIndex = 0;
+            animate();
+        }
+        
+        // renderer (canvas)
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.setClearColor(new THREE.Color(0xeeeeee));
+        document.getElementById('stage').appendChild(renderer.domElement);
+        
+        // create a scene
+        var scene = new THREE.Scene();
+        
+        // set a camera
+        var aspect = canvasWidth / canvasHeight;
+        var camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
+        camera.position.z = 500;
+        camera.fov = 45;
+        camera.updateProjectionMatrix();
+        scene.add(camera);
+        
+        // set a directional light
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+        directionalLight.position.z = 3;
+        scene.add(directionalLight);
+
+        // TableTop
+        function createTopMesh(width, height, depth, widthSegments, heightSegments, depthSegments, streetsImageUrl, offsetX, offsetZ, tableArray) {
+            var geometry = new THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments);
+            const texLoader = new THREE.TextureLoader();
+            texLoader.crossOrigin = '*';
+            texLoader.load(streetsImageUrl, 
+                texture => { // onLoad
+                    var material = [
+                        new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // right
+                        new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // left
+                        new THREE.MeshBasicMaterial({ map: texture }), // top
+                        new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // bottom
+                        new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // back
+                        new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // front
+                    ];
+                    var mesh = new THREE.Mesh(geometry, material);
+                    mesh.position.set(offsetX, 0, offsetZ);
+                    scene.add(mesh);
+                    tableArray.push(mesh);
+                },
+                xhr => { // onProgress
+                    console.log(xhr);
+                },
+                xhr => { // onError
+                    console.log(xhr);
+                }
+            );
+        }
+        
+        // Legs
+        function createLegsMesh(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, offSetArray) {
+            var geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
+            var material = new THREE.MeshLambertMaterial({ color: 0x111111 });
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(offSetArray[0], offSetArray[1], offSetArray[2]);
+            scene.add(mesh);
+            return mesh;
+        }
+
+        // 3D Model
+        function add3DModel(fileName, offsetX, offsetZ, scale) {
+            THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setPath( 'obj/' );
+            mtlLoader.load(fileName + '.mtl', function( materials ) {
+
+                materials.preload();
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials( materials );
+                objLoader.setPath( 'obj/' );
+                objLoader.load(fileName + '.obj', function ( object ) {
+                    object.scale.set(scale, scale, scale);
+                    object.position.set(offsetX, 4, offsetZ);
+                    scene.add( object );
+                });
+                //}, onProgress, onError );
+            });
+        }
+
+        function addTable(streetsImageUrl, offsetX, offsetZ) {
+            var table = [];
+            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, 90 + offsetZ]));
+            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, -90 + offsetZ]));
+            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ]));
+            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ]));
+            createTopMesh(200, 8, 200, 1, 1, 1, streetsImageUrl, offsetX, offsetZ, table);
+            return table;
+        }
+
+        tableImageUrls.forEach(function (url, i) {
+            tables.push(addTable(url, initOffsets[i].x, initOffsets[i].z));
+        });
+        add3DModel(cup3DObjFileName, -50, -30, 250);
+
+        // control
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        function render() {
+            requestAnimationFrame(render);
+            renderer.render(scene,camera);
+            controls.update();
+        }
+
+        function animate() {
+            frameIndex++;
+            if (frameIndex < frameNum) {
+                requestAnimationFrame(animate);
+                tables.forEach(function (table, i) {
+                    var offsetX = initOffsets[i].x - (initOffsets[i].x - endOffsets[i].x) / frameNum * frameIndex;
+                    var offsetZ = initOffsets[i].z - (initOffsets[i].z - endOffsets[i].z) / frameNum * frameIndex;
+                    table.forEach(function (p, j) {
+                        var endX, endY, endZ;
+                        // ここは脚の位置、数、構成次第で変数が変わる
+                        switch (j) {
+                            case 0:
+                                endX = 90 + offsetX;
+                                endY = -75;
+                                endZ = 90 + offsetZ;
+                                break;
+                            case 1:
+                                endX = 90 + offsetX;
+                                endY = -75;
+                                endZ = -90 + offsetZ;
+                                break;
+                            case 2:
+                                endX = -90 + offsetX;
+                                endY = -75;
+                                endZ = 90 + offsetZ;
+                                break;
+                            case 3:
+                                endX = -90 + offsetX;
+                                endY = -75;
+                                endZ = -90 + offsetZ;
+                                break;
+                            case 4:
+                                endX = offsetX;
+                                endY = 0;
+                                endZ = offsetZ;
+                                break;
+                        }
+                        p.position.set(endX, endY, endZ);
+                    });
+                });
+                renderer.clear();
+                renderer.render(scene, camera);
+            }
+            else {
+                animateBtn.classList.remove('disabled');
+            }
+        }
+
+        render();
+        setTimeout(function () {
+            animate();
+        }, 3000); // 画像読み込み完了を Promise で実装予定
+    }, false);
+    </script>
 </head>
-<body>
+<body id="page-top">
+    <nav id="mainNav" class="navbar affix navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="../../"><img src="../../img/mable.png" style="height:60px;display:inline;margin-right:15px;margin-top:-20px;"></a>
+            </div>
 
-<div id="stage"></div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <button id='animate-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-cloud-download" aria-hidden="true"></i> Animate</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <div id="stage"></div>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-39596060-8', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- jQuery -->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
 </body>
 </html>
