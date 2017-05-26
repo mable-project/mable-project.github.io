@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mable Preview THREE Beta</title>
+<style>
+body {
+    margin: 0px;
+    overflow: hidden;
+    background: #fff;
+}
+#stage {
+	background: #fff;
+	overflow: hidden;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://threejs.org/examples/js/loaders/DDSLoader.js"></script>
+<script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://threejs.org/examples/js/loaders/MTLLoader.js"></script>
+<script>
+window.addEventListener("DOMContentLoaded", function(){
+	
+	var viewAngle = 80;
+	var width  = window.innerWidth;
+	var height = window.innerHeight;
+	var near   = 1;
+	var far    = 5000;
+
+    var frameIndex = 0;
+    var frameNum = 600;
+
+    var tables = [];
+    var initOffsets = [
+        { x: 0, z: 0 },
+        { x: 220, z: 0 },
+        { x: 0, z: 220 },
+        { x: 220, z: 220 },
+        { x: 440, z: 0 },
+        { x: 440, z: 220 },
+    ];
+    var endOffsets = [
+        { x: 0, z: 0 },
+        { x: 200, z: 0 },
+        { x: 0, z: 200 },
+        { x: 200, z: 200 },
+        { x: 400, z: 0 },
+        { x: 400, z: 200 },
+    ];
+    var tableImageUrls = [
+        'https://dev.mable.me/osm2svg?bbox=-0.22138283126446368,51.50695240522887,-0.12743448046921912,51.565390189697894&width=709&style=road&format=png&bg=1',
+        'https://dev.mable.me/osm2svg?bbox=-0.1273928441912915,51.507051232981155,-0.03344449339329003,51.56548889064885&width=709&style=road&format=png&bg=1',
+        'https://dev.mable.me/osm2svg?bbox=-0.2212058083775048,51.4487852567205,-0.12725745757677487,51.507297643603664&width=709&style=road&format=png&bg=1',
+        'https://dev.mable.me/osm2svg?bbox=-0.12721765423606257,51.44889943835099,-0.033269303432547304,51.5074116788509&width=709&style=road&format=png&bg=1',
+        'https://dev.mable.me/osm2svg?bbox=-0.03337685597205109,51.5075570482544,0.06034335202249963,51.56585224021376&width=709&style=road&format=png&bg=1',
+        'https://dev.mable.me/osm2svg?bbox=-0.03338291550443273,51.449266838449944,0.06033729248747477,51.507636609708555&width=709&style=road&format=png&bg=1'
+    ];
+    var bgTableImageUrl = '../img/table-bg.png';
+    var cup3DObjFileName = 'Cup_1';
+	
+	// renderer (canvas)
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(width, height);
+    renderer.setClearColor(new THREE.Color(0xeeeeee));
+	document.getElementById('stage').appendChild(renderer.domElement);
+	
+	// create a scene
+	var scene = new THREE.Scene();
+	
+	// set a camera
+	var aspect = width / height;
+	var camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
+	camera.position.z = 500;
+    camera.fov = 45;
+    camera.updateProjectionMatrix();
+	scene.add(camera);
+	
+	// set a directional light
+	var directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+	directionalLight.position.z = 3;
+	scene.add(directionalLight);
+
+	// TableTop
+    function createTopMesh(width, height, depth, widthSegments, heightSegments, depthSegments, streetsImageUrl, offsetX, offsetZ, tableArray) {
+        var geometry = new THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments);
+        const texLoader = new THREE.TextureLoader();
+        texLoader.crossOrigin = '*';
+        texLoader.load(streetsImageUrl, 
+            texture => { // onLoad
+                var material = [
+                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // right
+                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // left
+                    new THREE.MeshBasicMaterial({ map: texture }), // top
+                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // bottom
+                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // back
+                    new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(bgTableImageUrl) }), // front
+                ];
+                var mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(offsetX, 0, offsetZ);
+                scene.add(mesh);
+                tableArray.push(mesh);
+            },
+            xhr => { // onProgress
+                console.log(xhr);
+            },
+            xhr => { // onError
+                console.log(xhr);
+            }
+        );
+    }
+	
+    // Legs
+    function createLegsMesh(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, offSetArray) {
+        var geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
+        var material = new THREE.MeshLambertMaterial({ color: 0x111111 });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(offSetArray[0], offSetArray[1], offSetArray[2]);
+	    scene.add(mesh);
+        return mesh;
+    }
+
+    // 3D Model
+    function add3DModel(fileName, offsetX, offsetZ, scale) {
+        THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath( 'obj/' );
+        mtlLoader.load(fileName + '.mtl', function( materials ) {
+
+            materials.preload();
+
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials( materials );
+            objLoader.setPath( 'obj/' );
+            objLoader.load(fileName + '.obj', function ( object ) {
+                object.scale.set(scale, scale, scale);
+                object.position.set(offsetX, 2, offsetZ);
+                scene.add( object );
+            });
+            //}, onProgress, onError );
+        });
+    }
+
+    function addTable(streetsImageUrl, offsetX, offsetZ) {
+        var table = [];
+        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, 90 + offsetZ]));
+        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, -90 + offsetZ]));
+        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ]));
+        table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ]));
+        createTopMesh(200, 2, 200, 1, 1, 1, streetsImageUrl, offsetX, offsetZ, table);
+        return table;
+    }
+
+    tableImageUrls.forEach(function (url, i) {
+        tables.push(addTable(url, initOffsets[i].x, initOffsets[i].z));
+    });
+    add3DModel(cup3DObjFileName, -50, -30, 250);
+
+    // control
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    function render() {
+        requestAnimationFrame(render);
+        renderer.render(scene,camera);
+        controls.update();
+    }
+
+    function animate() {
+        frameIndex++;
+        if (frameIndex < frameNum) {
+            requestAnimationFrame(animate);
+            tables.forEach(function (table, i) {
+                var offsetX = initOffsets[i].x - (initOffsets[i].x - endOffsets[i].x) / frameNum * frameIndex;
+                var offsetZ = initOffsets[i].z - (initOffsets[i].z - endOffsets[i].z) / frameNum * frameIndex;
+                table.forEach(function (p, j) {
+                    var endX, endY, endZ;
+                    // ここは脚の位置、数、構成次第で変数が変わる
+                    switch (j) {
+                        case 0:
+                            endX = 90 + offsetX;
+                            endY = -75;
+                            endZ = 90 + offsetZ;
+                            break;
+                        case 1:
+                            endX = 90 + offsetX;
+                            endY = -75;
+                            endZ = -90 + offsetZ;
+                            break;
+                        case 2:
+                            endX = -90 + offsetX;
+                            endY = -75;
+                            endZ = 90 + offsetZ;
+                            break;
+                        case 3:
+                            endX = -90 + offsetX;
+                            endY = -75;
+                            endZ = -90 + offsetZ;
+                            break;
+                        case 4:
+                            endX = offsetX;
+                            endY = 0;
+                            endZ = offsetZ;
+                            break;
+                    }
+                    p.position.set(endX, endY, endZ);
+                });
+            });
+            renderer.clear();
+            renderer.render(scene, camera);
+        }
+    }
+
+    render();
+    setTimeout(function () {
+        animate();
+    }, 3000);
+}, false);
+</script>
+</head>
+<body>
+
+<div id="stage"></div>
+
+</body>
+</html>
