@@ -55,11 +55,10 @@
 
         console.log(document.getElementById('stage'));
         var viewAngle = 80;
-        var canvasWidth  = window.innerWidth;
-        var canvasHeight = window.innerHeight;
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
         var near   = 1;
         var far    = 5000;
-        //console.log(width, height);
 
         var frameIndex = 0;
         var frameNum = 600;
@@ -111,7 +110,7 @@
         
         // renderer (canvas)
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(new THREE.Color(0xeeeeee));
         document.getElementById('stage').appendChild(renderer.domElement);
         
@@ -119,7 +118,7 @@
         var scene = new THREE.Scene();
         
         // set a camera
-        var aspect = canvasWidth / canvasHeight;
+        var aspect = window.innerWidth / window.innerHeight;
         var camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
         camera.position.z = 500;
         camera.fov = 45;
@@ -130,6 +129,8 @@
         var directionalLight = new THREE.DirectionalLight(0xffffff, 5);
         directionalLight.position.z = 3;
         scene.add(directionalLight);
+
+        window.addEventListener('resize', onWindowResize, false);
 
         // TableTop
         function createTopMesh(width, height, depth, widthSegments, heightSegments, depthSegments, streetsImageUrl, offsetX, offsetZ, tableArray) {
@@ -263,8 +264,18 @@
             }
         }
 
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+        }
+
         render();
+        
         setTimeout(function () {
+            $('canvas').css({ display: 'flex' }); // ウィンドウサイズに合わない現象の回避
             animate();
         }, 3000); // 画像読み込み完了を Promise で実装予定
     }, false);
