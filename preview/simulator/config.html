@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mable Preview THREE Beta</title>
+<style>
+body {
+    margin: 0px;
+    overflow: hidden;
+    background: #fff;
+}
+input {
+	font-size: 2em;
+    width: 140px;
+}
+#input-area {
+    padding: 15px;
+    font-size: 3em;
+}
+#layout-area {
+    padding: 15px;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.9.1/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    
+window.addEventListener("load", function(){
+
+    var width = window.innerWidth,
+        height = window.innerHeight - 176;
+
+    var canvas = d3.select("#layout-area");
+    var svg = canvas.append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    $("#x-num").on("change", function () {
+        updateGrids([Number(this.value), Number($("#y-num").val())]);
+    });
+    $("#y-num").on("change", function () {
+        updateGrids([Number($("#x-num").val()), Number(this.value)]);
+    });
+
+    function updateGrids(xy) {
+        d3.selectAll("rect").remove();
+
+        if (xy[0] !== 0 || xy[1] !== 0) {
+            var cellSize = 0;
+            if (xy[0] > xy[1]) {
+                cellSize = width / xy[0];
+            }
+            else {
+                cellSize = height / xy[1];
+            }
+
+            for( var i = 0; i < xy[1]; i++ ){
+                for( var j = 0; j < xy[0]; j++ ){
+                    createRect(cellSize * j, cellSize * i, cellSize);
+                }
+            }
+        }
+    }
+
+    function createRect(x, y, cellSize) {
+        var rect = svg.append("rect");
+        rect.attr("x", x)
+            .attr("y", y)
+            .attr("width", cellSize)
+            .attr("height", cellSize)
+            .attr("stroke", "rgba(255, 100, 0, 0.8)")
+            .attr("fill", "rgba(255, 100, 0, 0.5)");
+    }
+
+    updateGrids([1, 1]);
+
+},false);
+
+</script>
+</head>
+<body>
+
+<div id="input-area">
+    <input id="x-num" type="number" name="x" min="0" value="1"> x <input id="y-num" type="number" name="y" min="0" value="1">
+</div>
+
+<div id="layout-area">
+
+</div>
+
+</body>
+</html>
