@@ -143,7 +143,7 @@ window.addEventListener("DOMContentLoaded", function(){
             objLoader.setPath( 'obj/' );
             objLoader.load(fileName + '.obj', function ( object ) {
                 object.scale.set(scale, scale, scale);
-                object.position.set(offsetX, 8, offsetZ);
+                object.position.set(offsetX, 4, offsetZ);
                 scene.add( object );
             });
             //}, onProgress, onError );
