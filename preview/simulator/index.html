@@ -43,6 +43,13 @@
         #stage {
             position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0;
         }
+        .thumbnail.selected {
+            border-color: rgba(84,208,142,0.8);
+            border-width: 3px;
+        }
+        a.thumbnail:hover, a.thumbnail:focus {
+            border-color: #34bd74;
+        }
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
@@ -96,6 +103,17 @@
             'img/table5.png',
             'img/table6.png'
         ];
+        var legsTypes = {
+            cylinder: {
+                legsGroup: [],
+                visible: true
+            },
+            square: {
+                legsGroup: [],
+                visible: false
+            }
+        }
+
         var bgTableImageUrl = '../img/table-bg.png';
         var cup3DObjFileName = 'Cup_1';
 
@@ -161,18 +179,25 @@
             );
         }
         
-        // Legs
-        function createLegsMesh(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, offSetArray) {
+        // Cylinder Legs
+        function createCylinderLegsMesh(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, offSetArray, visible) {
             var geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
             var material = new THREE.MeshLambertMaterial({ color: 0x111111 });
             var mesh = new THREE.Mesh(geometry, material);
             mesh.position.set(offSetArray[0], offSetArray[1], offSetArray[2]);
+            mesh.visible = visible;
             scene.add(mesh);
             return mesh;
         }
 
+        // Square Legs
+        function createSquareLegsMesh(offsetX, offsetZ, scale, visible, legs) {
+            var fileName = '';
+            //add3DModel(offsetX, offsetZ, scale, visible, legs);
+        }
+
         // 3D Model
-        function add3DModel(fileName, offsetX, offsetZ, scale) {
+        function add3DModel(fileName, offsetX, offsetZ, scale, visible, legs) {
             THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
             var mtlLoader = new THREE.MTLLoader();
@@ -187,6 +212,10 @@
                 objLoader.load(fileName + '.obj', function ( object ) {
                     object.scale.set(scale, scale, scale);
                     object.position.set(offsetX, 4, offsetZ);
+                    object.visible = visible;
+                    if (legs !== undefined) {
+                        legs.push(object);
+                    }
                     scene.add( object );
                 });
                 //}, onProgress, onError );
@@ -195,18 +224,35 @@
 
         function addTable(streetsImageUrl, offsetX, offsetZ) {
             var table = [];
-            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, 90 + offsetZ]));
-            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, -90 + offsetZ]));
-            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ]));
-            table.push(createLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ]));
             createTopMesh(200, 8, 200, 1, 1, 1, streetsImageUrl, offsetX, offsetZ, table);
             return table;
+        }
+        
+        function addLegs(legsType, offsetX, offsetZ, visible) {
+            var legs = [];
+            switch (legsType) {
+                case 'cylinder':
+                    legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, 90 + offsetZ], visible));
+                    legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [90 + offsetX, -75, -90 + offsetZ], visible));
+                    legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ], visible));
+                    legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ], visible));
+                    break;
+                case 'square':
+                    createSquareLegsMesh(offsetX, offsetZ, 100, visible, legs);
+                    break;
+            }
+            legsTypes[legsType].legsGroup.push(legs);
         }
 
         tableImageUrls.forEach(function (url, i) {
             tables.push(addTable(url, initOffsets[i].x, initOffsets[i].z));
         });
-        add3DModel(cup3DObjFileName, -50, -30, 250);
+        for (legsType in legsTypes) {
+            tableImageUrls.forEach(function (url, i) {
+                addLegs(legsType, initOffsets[i].x, initOffsets[i].z, legsTypes[legsType].visible);
+            });
+        }
+        add3DModel(cup3DObjFileName, -50, -30, 250, true);
 
         // control
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -223,39 +269,58 @@
                 tables.forEach(function (table, i) {
                     var offsetX = initOffsets[i].x - (initOffsets[i].x - endOffsets[i].x) / frameNum * frameIndex;
                     var offsetZ = initOffsets[i].z - (initOffsets[i].z - endOffsets[i].z) / frameNum * frameIndex;
-                    table.forEach(function (p, j) {
-                        var endX, endY, endZ;
-                        // ここは脚の位置、数、構成次第で変数が変わる
-                        switch (j) {
-                            case 0:
-                                endX = 90 + offsetX;
-                                endY = -75;
-                                endZ = 90 + offsetZ;
-                                break;
-                            case 1:
-                                endX = 90 + offsetX;
-                                endY = -75;
-                                endZ = -90 + offsetZ;
-                                break;
-                            case 2:
-                                endX = -90 + offsetX;
-                                endY = -75;
-                                endZ = 90 + offsetZ;
-                                break;
-                            case 3:
-                                endX = -90 + offsetX;
-                                endY = -75;
-                                endZ = -90 + offsetZ;
-                                break;
-                            case 4:
-                                endX = offsetX;
-                                endY = 0;
-                                endZ = offsetZ;
-                                break;
-                        }
-                        p.position.set(endX, endY, endZ);
+                    table.forEach(function (t, j) {
+                        t.position.set(offsetX, 0, offsetZ);
                     });
                 });
+                for (legsType in legsTypes) {
+                    legsTypes[legsType].legsGroup.forEach(function (legs, i) {
+                        var offsetX = initOffsets[i].x - (initOffsets[i].x - endOffsets[i].x) / frameNum * frameIndex;
+                        var offsetZ = initOffsets[i].z - (initOffsets[i].z - endOffsets[i].z) / frameNum * frameIndex;
+                        legs.forEach(function (leg, j) {
+                            var endX, endY, endZ;
+                            if (legsType === 'cylinder') {
+                                switch (j) {
+                                    case 0:
+                                        endX = 90 + offsetX;
+                                        endY = -75;
+                                        endZ = 90 + offsetZ;
+                                        break;
+                                    case 1:
+                                        endX = 90 + offsetX;
+                                        endY = -75;
+                                        endZ = -90 + offsetZ;
+                                        break;
+                                    case 2:
+                                        endX = -90 + offsetX;
+                                        endY = -75;
+                                        endZ = 90 + offsetZ;
+                                        break;
+                                    case 3:
+                                        endX = -90 + offsetX;
+                                        endY = -75;
+                                        endZ = -90 + offsetZ;
+                                        break;
+                                }
+                            }
+                            if (legsType === 'square') {
+                                switch (j) {
+                                case 0:
+                                    endX = 90 + offsetX;
+                                    endY = -75;
+                                    endZ = 90 + offsetZ;
+                                    break;
+                                case 1:
+                                    endX = 90 + offsetX;
+                                    endY = -75;
+                                    endZ = -90 + offsetZ;
+                                    break;
+                                }
+                            }
+                            leg.position.set(endX, endY, endZ);
+                        });
+                    });
+                }
                 renderer.clear();
                 renderer.render(scene, camera);
             }
@@ -273,6 +338,24 @@
         }
 
         render();
+
+        // select legs types
+        $('.thumbnail').on('click', function (e) {
+            console.log(e);
+            $('.thumbnail').removeClass('selected');
+            e.currentTarget.classList.add('selected');
+        });
+        $('#change-legs-ok-btn').on('click', function (e) {
+            var type = $('.thumbnail.selected').prop('id').split('-')[2];
+            console.log(type);
+            for (legsType in legsTypes) {
+                legsTypes[legsType].legsGroup.forEach(function (legs) {
+                    legs.forEach(function (leg) {
+                        leg.visible = type == legsType;
+                    });
+                });
+            }
+        });
         
         setTimeout(function () {
             $('canvas').css({ display: 'flex' }); // ウィンドウサイズに合わない現象の回避
@@ -298,12 +381,49 @@
                     <li>
                         <button id='animate-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-repeat" aria-hidden="true"></i> Replay</button>
                     </li>
+                    <li>
+                        <button id="change-legs-btn" class="btn btn-outline btn-xl btn-mable-preview" data-toggle="modal" data-target="#change-legs-modal"><i class="fa fa-exchange" aria-hidden="true"></i> Change Legs</button>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
     </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="change-legs-modal" tabindex="-1" role="dialog" aria-labelledby="change-legs-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="change-legs-modal-label">Legs</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        <a href="#" class="thumbnail selected" id="legs-type-cylinder">
+                            <img src="img/cylinder.png" alt="...">
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        <a href="#" class="thumbnail" id="legs-type-square">
+                            <img src="img/none.png" alt="...">
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        <a href="#" class="thumbnail" id="legs-type-none">
+                            <img src="img/none.png" alt="...">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="change-legs-ok-btn" type="button" class="btn btn-outline btn-xl btn-mable-preview" data-dismiss="modal">OK</button>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <div id="stage"></div>
 
