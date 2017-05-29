@@ -108,6 +108,10 @@
                 legsGroup: [],
                 visible: true
             },
+            shortCylinder: {
+                legsGroup: [],
+                visible: false
+            },
             square: {
                 legsGroup: [],
                 visible: false
@@ -190,33 +194,39 @@
             return mesh;
         }
 
+        // Short Cylinder Legs
+        function createShortCylinderLegsMesh(offsetX, offsetY, offsetZ, scale, visible, legs) {
+            var fileName = 'short-cylinder';
+            add3DModel(fileName, offsetX, offsetY, offsetZ, scale, visible, legs);
+        }
+
         // Square Legs
-        function createSquareLegsMesh(offsetX, offsetZ, scale, visible, legs) {
+        function createSquareLegsMesh(offsetX, offsetY, offsetZ, scale, visible, legs) {
             var fileName = '';
-            //add3DModel(offsetX, offsetZ, scale, visible, legs);
+            //add3DModel(fileName, offsetX, offsetY, offsetZ, scale, visible, legs);
         }
 
         // 3D Model
-        function add3DModel(fileName, offsetX, offsetZ, scale, visible, legs) {
+        function add3DModel(fileName, offsetX, offSetY, offsetZ, scale, visible, legs) {
             THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setPath( 'obj/' );
-            mtlLoader.load(fileName + '.mtl', function( materials ) {
+            mtlLoader.load(fileName + '.mtl', function(materials) {
 
                 materials.preload();
 
                 var objLoader = new THREE.OBJLoader();
-                objLoader.setMaterials( materials );
+                objLoader.setMaterials(materials);
                 objLoader.setPath( 'obj/' );
                 objLoader.load(fileName + '.obj', function ( object ) {
                     object.scale.set(scale, scale, scale);
-                    object.position.set(offsetX, 4, offsetZ);
+                    object.position.set(offsetX, offSetY, offsetZ);
                     object.visible = visible;
                     if (legs !== undefined) {
                         legs.push(object);
                     }
-                    scene.add( object );
+                    scene.add(object);
                 });
                 //}, onProgress, onError );
             });
@@ -237,8 +247,11 @@
                     legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, 90 + offsetZ], visible));
                     legs.push(createCylinderLegsMesh(2, 2, 150, 8, 1, false, [-90 + offsetX, -75, -90 + offsetZ], visible));
                     break;
+                case 'shortCylinder':
+                    createShortCylinderLegsMesh(offsetX, -35, offsetZ, 8, visible, legs);
+                    break;
                 case 'square':
-                    createSquareLegsMesh(offsetX, offsetZ, 100, visible, legs);
+                    createSquareLegsMesh(offsetX, 0, offsetZ, 100, visible, legs);
                     break;
             }
             legsTypes[legsType].legsGroup.push(legs);
@@ -252,7 +265,7 @@
                 addLegs(legsType, initOffsets[i].x, initOffsets[i].z, legsTypes[legsType].visible);
             });
         }
-        add3DModel(cup3DObjFileName, -50, -30, 250, true);
+        add3DModel(cup3DObjFileName, -50, 4, -30, 250, true);
 
         // control
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -303,6 +316,11 @@
                                         break;
                                 }
                             }
+                            if (legsType === 'shortCylinder') {
+                                endX = offsetX;
+                                endY = -35;
+                                endZ = offsetZ;
+                            }
                             if (legsType === 'square') {
                                 switch (j) {
                                 case 0:
@@ -341,11 +359,9 @@
 
         // select legs types
         $('.thumbnail').on('click', function (e) {
-            console.log(e);
             $('.thumbnail').removeClass('selected');
             e.currentTarget.classList.add('selected');
-        });
-        $('#change-legs-ok-btn').on('click', function (e) {
+
             var type = $('.thumbnail.selected').prop('id').split('-')[2];
             console.log(type);
             for (legsType in legsTypes) {
@@ -396,7 +412,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                 <h4 class="modal-title" id="change-legs-modal-label">Legs</h4>
             </div>
             <div class="modal-body">
@@ -404,16 +420,25 @@
                     <div class="col-xs-4 col-md-4">
                         <a href="#" class="thumbnail selected" id="legs-type-cylinder">
                             <img src="img/cylinder.png" alt="...">
+                            <div class="caption">
+                                <h5>Cylinder</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        <a href="#" class="thumbnail" id="legs-type-shortCylinder">
+                            <img src="img/short-cylinder.png" alt="...">
+                            <div class="caption">
+                                <h5>Short Cylinder</h5>
+                            </div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-md-4">
                         <a href="#" class="thumbnail" id="legs-type-square">
                             <img src="img/none.png" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-md-4">
-                        <a href="#" class="thumbnail" id="legs-type-none">
-                            <img src="img/none.png" alt="...">
+                            <div class="caption">
+                                <h5>Coming soon..</h5>
+                            </div>
                         </a>
                     </div>
                 </div>
