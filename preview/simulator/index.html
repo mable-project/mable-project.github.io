@@ -211,8 +211,8 @@
 
         // Square Legs
         function createSquareLegsMesh(offsetX, offsetY, offsetZ, scale, visible, legs) {
-            var fileName = '';
-            //add3DModel(fileName, offsetX, offsetY, offsetZ, scale, visible, legs);
+            var fileName = 'square';
+            add3DModel(fileName, offsetX, offsetY, offsetZ, scale, visible, legs);
         }
 
         // 3D Model
@@ -260,7 +260,7 @@
                     createShortCylinderLegsMesh(offsetX, -35, offsetZ, 8, visible, legs);
                     break;
                 case 'square':
-                    createSquareLegsMesh(offsetX, 0, offsetZ, 100, visible, legs);
+                    createSquareLegsMesh(offsetX - 30, -105, offsetZ + 20, 13, visible, legs);
                     break;
             }
             legsTypes[legsType].legsGroup.push(legs);
@@ -331,18 +331,9 @@
                                 endZ = offsetZ;
                             }
                             if (legsType === 'square') {
-                                switch (j) {
-                                case 0:
-                                    endX = 90 + offsetX;
-                                    endY = -75;
-                                    endZ = 90 + offsetZ;
-                                    break;
-                                case 1:
-                                    endX = 90 + offsetX;
-                                    endY = -75;
-                                    endZ = -90 + offsetZ;
-                                    break;
-                                }
+                                endX = offsetX - 30;
+                                endY = -105;
+                                endZ = offsetZ + 20;
                             }
                             leg.position.set(endX, endY, endZ);
                         });
@@ -444,9 +435,9 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <a href="#" class="thumbnail" id="legs-type-square">
-                            <img src="img/none.png" alt="...">
+                            <img src="img/square.png" alt="...">
                             <div class="caption">
-                                <h5>Coming soon..</h5>
+                                <h5>Square</h5>
                             </div>
                         </a>
                     </div>
