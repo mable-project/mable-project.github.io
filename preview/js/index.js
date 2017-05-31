@@ -292,10 +292,11 @@ function getStreetsPNGInBounds(bounds) {
 
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
+  var imgUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&credit=no' + osm2pngUrlParamsText;
 
   map.addSource(streetsLayerProps.id, {
     'type': 'image',
-    'url': mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&credit=no' + osm2pngUrlParamsText,
+    'url': imgUrl,
     'coordinates': bboxCoordinates
   });
   map.addLayer({
@@ -303,6 +304,8 @@ function getStreetsPNGInBounds(bounds) {
     'type': 'raster',
     'source': streetsLayerProps.id
   });
+
+  addSavedAreaToWindow(imgUrl, bounds); // saveSelectedAreas.js
 
   setTimeout(function () {
     document.getElementById(exportAreaInnerId).classList.remove('shutter');
