@@ -157,8 +157,8 @@
         scene.add(camera);
         
         // set a directional light
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-        directionalLight.position.z = 3;
+        var directionalLight = new THREE.DirectionalLight(0xffeedd);
+        directionalLight.position.set(0, 0, 1).normalize();
         scene.add(directionalLight);
 
         window.addEventListener('resize', onWindowResize, false);
