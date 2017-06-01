@@ -4,9 +4,10 @@ var areas = [];
 var areaBounds = [];
 var screenBounds = [];
 var areaUrls = [];
-var savedAreasWindow = document.getElementById('saved-areas-window-inner');
+var savedAreasWindowInner = document.getElementById('saved-areas-window-inner');
+var savedAreasWindow = document.getElementById('saved-areas-window');
 
-savedAreasWindow.onclick = function (e) {
+savedAreasWindowInner.onclick = function (e) {
   if (e.srcElement.nodeName === 'IMG') {
     var targetId = Number(e.srcElement.id.split('-')[2]);
     var boundsBase = areaBounds[targetId];
@@ -33,6 +34,16 @@ savedAreasWindow.onclick = function (e) {
     currentExportScreenBounds = sBounds;
   }
 }
+
+map.on('load', function () {
+  savedAreasWindow.classList.add('visible');
+});
+map.on('move', function () {
+  savedAreasWindow.classList.remove('visible');
+});
+map.on('moveend', function () {
+  savedAreasWindow.classList.add('visible');
+});
 
 function getAreasInLocalStorage() {
   areaUrls = JSON.parse(localStorage.getItem('mable-preview-areas')).areaUrls || [];
@@ -66,10 +77,10 @@ function addSavedAreaToWindow(url, bounds) {
 }
 
 function renderSavedAreaToWindow(domArray) {
-  savedAreasWindow.textContent = null;
+  savedAreasWindowInner.textContent = null;
   domArray.forEach(function (a, i) {
     a.id = 'saved-area-' + i;
-    savedAreasWindow.appendChild(a);
+    savedAreasWindowInner.appendChild(a);
   });
 
   localStorage.setItem('mable-preview-areas', JSON.stringify({ 'areaUrls': areaUrls, 'areaBounds': areaBounds, 'screenBounds': screenBounds }));
