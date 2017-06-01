@@ -33,6 +33,16 @@ savedAreasWindowInner.onclick = function (e) {
     currentExportBounds = bounds;
     currentExportScreenBounds = sBounds;
   }
+  if (e.srcElement.nodeName === 'I') {
+    var img = e.srcElement.previousSibling;
+    var targetId = Number(img.id.split('-')[2]);
+    areas.splice(targetId, 1);
+    areaUrls.splice(targetId, 1);
+    areaBounds.splice(targetId, 1);
+    screenBounds.splice(targetId, 1);
+
+    renderSavedAreaToWindow(areas);
+  }
 }
 
 map.on('load', function () {
@@ -45,24 +55,36 @@ map.on('moveend', function () {
   savedAreasWindow.classList.add('visible');
 });
 
+function createThumbnail(url) {
+  var thumbnail = document.createElement('div');
+  thumbnail.classList.add('savedarea-thumbnail');
+  var img = document.createElement("img");
+  img.src = url;
+  var deleteIcon = document.createElement('i');
+  deleteIcon.classList.add('fa');
+  deleteIcon.classList.add('fa-minus-circle');
+  deleteIcon.classList.add('delete-thumbnail-icon');
+  deleteIcon.ariaHidden = true;
+
+  thumbnail.appendChild(img);
+  thumbnail.appendChild(deleteIcon);
+
+  return thumbnail;
+}
+
 function getAreasInLocalStorage() {
   areaUrls = JSON.parse(localStorage.getItem('mable-preview-areas')).areaUrls || [];
   areaBounds = JSON.parse(localStorage.getItem('mable-preview-areas')).areaBounds || [];
   screenBounds = JSON.parse(localStorage.getItem('mable-preview-areas')).screenBounds || [];
   areaUrls.forEach(function (url, i) {
-    var img = document.createElement("img");
-    img.src = url;
-    areas.push(img);
+    areas.push(createThumbnail(url));
   });
 
   renderSavedAreaToWindow(areas);
 }
 
 function addSavedAreaToWindow(url, bounds) {
-  var img = document.createElement("img");
-  img.src = url;
-
-  areas.push(img);
+  areas.push(createThumbnail(url));
   areaUrls.push(url);
   areaBounds.push([bounds._sw.lng, bounds._sw.lat, bounds._ne.lng, bounds._ne.lat]);
   screenBounds.push([currentExportScreenBounds._sw.lng, currentExportScreenBounds._sw.lat, currentExportScreenBounds._ne.lng, currentExportScreenBounds._ne.lat]);
@@ -78,9 +100,13 @@ function addSavedAreaToWindow(url, bounds) {
 
 function renderSavedAreaToWindow(domArray) {
   savedAreasWindowInner.textContent = null;
-  domArray.forEach(function (a, i) {
-    a.id = 'saved-area-' + i;
-    savedAreasWindowInner.appendChild(a);
+  domArray.forEach(function (thumbnail, i) {
+    thumbnail.childNodes.forEach(function (node) {
+      if (node.nodeName === 'IMG') {
+        node.id = 'saved-area-' + i;
+      }
+    });
+    savedAreasWindowInner.appendChild(thumbnail);
   });
 
   localStorage.setItem('mable-preview-areas', JSON.stringify({ 'areaUrls': areaUrls, 'areaBounds': areaBounds, 'screenBounds': screenBounds }));

@@ -217,23 +217,49 @@ button.disabled {
   background-color: rgba(255,255,255,0.85);
   background-color: rgba(0,0,0,0.35);
   padding: 10px 10px 0 10px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-#saved-areas-window-inner > img {
+.savedarea-thumbnail {
   cursor: pointer;
+  display: flex;
   width: 76px;
+  height: 76px;
   margin-right: 5px;
+  transition: all .4s;
+}
+.savedarea-thumbnail > img {
+  width: 100%;
   border: 1px #fff solid;
   background-color: rgba(255,255,255,0.85);
   transition: all .4s;
 }
 @media (max-width: 672px) {
-  #saved-areas-window-inner > img {
-    width: calc(16.67% - 6px);
+  .savedarea-thumbnail {
+    width: 45px;
+    height: 45px;
   }
 }
-#saved-areas-window-inner > img:hover {
+.savedarea-thumbnail > img:hover {
   background: rgba(84,208,142,0.3);
   border-color: rgba(84,208,142,0.8);
+}
+i.delete-thumbnail-icon {
+  color: rgba(0,0,0,0.55);
+  display: none;
+  position: absolute;
+  margin: 5px;
+  transition: all .4s;
+  font-size: 1.2em;
+}
+i.delete-thumbnail-icon:hover {
+  display: inline;
+  color: rgba(255,55,0,0.8);
+}
+.savedarea-thumbnail > img:hover + i.delete-thumbnail-icon {
+  display: inline;
 }
 
 /* override mapbox-gl.css */
