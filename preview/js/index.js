@@ -133,6 +133,7 @@ function setMapView() {
   activateGetStreetsViews();
   document.getElementById(exportAreaId).style.display = 'flex';
   document.getElementById(exportBtnId).style.display = 'flex';
+    document.getElementById('saved-areas-window').style.display = 'flex'; // saveSelectedArea.js
   document.getElementById(downloadImgBtnId).classList.add('disabled');
   showBasemap();
   map.dragRotate.disable();
@@ -144,8 +145,8 @@ function setMapView() {
   });
 }
 
-function setTableView() {
-  map.fitBounds(currentExportScreenBounds, {
+function setTableView(bounds) {
+  map.fitBounds(bounds || currentExportScreenBounds, {
     linear: true
   });
   setTimeout(function () {
@@ -154,6 +155,7 @@ function setTableView() {
     deactivateGetStreetsViews();
     document.getElementById(exportAreaId).style.display = 'none';
     document.getElementById(exportBtnId).style.display = 'none';
+    document.getElementById('saved-areas-window').style.display = 'none'; // saveSelectedArea.js
     document.getElementById(downloadImgBtnId).classList.remove('disabled');
     hideBasemap();
     map.dragRotate.enable();
@@ -285,7 +287,7 @@ function getExportBounds() {
 }
 
 // add streets into map with our OSM API
-function getStreetsPNGInBounds(bounds) {
+function getStreetsPNGInBounds(bounds, doNotSave) {
   document.getElementById(exportAreaInnerId).classList.remove('loading');
   document.getElementById(exportAreaInnerId).classList.add('shutter');
   document.getElementById(switchViewBtnId).style.display = 'block';
@@ -305,7 +307,9 @@ function getStreetsPNGInBounds(bounds) {
     'source': streetsLayerProps.id
   });
 
-  addSavedAreaToWindow(imgUrl, bounds); // saveSelectedAreas.js
+  if (doNotSave === undefined) {
+    addSavedAreaToWindow(imgUrl, bounds); // saveSelectedAreas.js
+  }
 
   setTimeout(function () {
     document.getElementById(exportAreaInnerId).classList.remove('shutter');
@@ -344,11 +348,11 @@ function getTableImage(bounds) {
 }
 
 // re-add a table image into map
-function updateTableImage() {
-  var bounds = getExportBounds();
+function updateTableImage(bounds) {
+  var tableBounds = bounds || getExportBounds();
   map.removeLayer(backgroundImageProps.id);
   map.removeSource(backgroundImageProps.id);
-  getTableImage(bounds);
+  getTableImage(tableBounds);
 }
 
 // show a basemap
