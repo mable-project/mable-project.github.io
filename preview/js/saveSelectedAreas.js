@@ -6,6 +6,7 @@ var screenBounds = [];
 var areaUrls = [];
 var savedAreasWindowInner = document.getElementById('saved-areas-window-inner');
 var savedAreasWindow = document.getElementById('saved-areas-window');
+var ua = navigator.userAgent;
 
 savedAreasWindowInner.onclick = function (e) {
   if (e.srcElement.nodeName === 'IMG') {
@@ -43,6 +44,10 @@ savedAreasWindowInner.onclick = function (e) {
 
     renderSavedAreaToWindow(areas);
   }
+}
+
+if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0 || ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
+  $('.delete-thumbnail-icon').css('display', 'inline');
 }
 
 map.on('load', function () {
