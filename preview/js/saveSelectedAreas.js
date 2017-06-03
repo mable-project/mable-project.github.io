@@ -42,6 +42,7 @@ savedAreasWindowInner.onclick = function (e) {
     areaUrls.splice(targetId, 1);
     areaBounds.splice(targetId, 1);
     screenBounds.splice(targetId, 1);
+    addresses.splice(targetId, 1);
 
     renderSavedAreaToWindow(areas);
   }
