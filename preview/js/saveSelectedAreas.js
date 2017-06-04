@@ -71,7 +71,7 @@ function createThumbnail(url) {
   img.setAttribute('data-placement', 'bottom');
   var deleteIcon = document.createElement('i');
   deleteIcon.classList.add('fa');
-  deleteIcon.classList.add('fa-minus-circle');
+  deleteIcon.classList.add('fa-close');
   deleteIcon.classList.add('delete-thumbnail-icon');
   deleteIcon.ariaHidden = true;
 
