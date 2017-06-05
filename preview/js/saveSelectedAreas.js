@@ -8,8 +8,8 @@ var ua = navigator.userAgent;
 savedAreasWindowInner.onclick = function (e) {
   if (e.srcElement.nodeName === 'IMG') {
     var targetId = Number(e.srcElement.id.split('-')[2]);
-    var boundsBase = areaBounds[targetId];
-    var screenBoundsBase = screenBounds[targetId];
+    var boundsBase = historyArray[targetId].areaBounds;
+    var screenBoundsBase = historyArray[targetId].screenBounds;
     var sw = new mapboxgl.LngLat(boundsBase[0], boundsBase[1]);
     var ne = new mapboxgl.LngLat(boundsBase[2], boundsBase[3]);
     var bounds = new mapboxgl.LngLatBounds(sw, ne);
