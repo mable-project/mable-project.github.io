@@ -204,6 +204,7 @@ button.disabled {
   transform: translate(0,-103px);
   transition: all .4s;
   z-index: 1;
+  pointer-events: none;
 }
 @media (max-width: 600px) {
   #saved-areas-window {
