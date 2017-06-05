@@ -3,7 +3,7 @@ var language = (window.navigator.languages && window.navigator.languages[0]) ||
             window.navigator.userLanguage ||
             window.navigator.browserLanguage;
             
-if (language !== 'ja') {
+if (language !== 'ja' && language !== 'ja-JP') {
     language = 'en';
 }
 
