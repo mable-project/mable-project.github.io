@@ -1,10 +1,6 @@
 'use strict';
 
-var areas = [];
-var areaBounds = [];
-var screenBounds = [];
-var areaUrls = [];
-var addresses = [];
+var historyArray = []; // [{ dom: <>, areaBounds: <>, screenBounds: <>, areaUrl: <>, address: <> }]
 var savedAreasWindowInner = document.getElementById('saved-areas-window-inner');
 var savedAreasWindow = document.getElementById('saved-areas-window');
 var ua = navigator.userAgent;
@@ -38,13 +34,10 @@ savedAreasWindowInner.onclick = function (e) {
   if (e.srcElement.nodeName === 'I') {
     var img = e.srcElement.previousSibling;
     var targetId = Number(img.id.split('-')[2]);
-    areas.splice(targetId, 1);
-    areaUrls.splice(targetId, 1);
-    areaBounds.splice(targetId, 1);
-    screenBounds.splice(targetId, 1);
-    addresses.splice(targetId, 1);
+    historyArray.splice(targetId, 1);
+    localStorage.setItem('mable-preview-history', JSON.stringify({ 'history': historyArray }));
 
-    renderSavedAreaToWindow(areas);
+    renderSavedAreaToWindow();
   }
 }
 
@@ -82,55 +75,62 @@ function createThumbnail(url) {
 }
 
 function getAreasInLocalStorage() {
-  areaUrls = JSON.parse(localStorage.getItem('mable-preview-areas')).areaUrls || [];
-  areaBounds = JSON.parse(localStorage.getItem('mable-preview-areas')).areaBounds || [];
-  screenBounds = JSON.parse(localStorage.getItem('mable-preview-areas')).screenBounds || [];
-  addresses = JSON.parse(localStorage.getItem('mable-preview-areas')).addresses || [];
-  areaUrls.forEach(function (url, i) {
-    areas.push(createThumbnail(url));
-  });
+  var historyInLocalStorage = JSON.parse(localStorage.getItem('mable-preview-history'));
+  console.log(historyInLocalStorage);
+  if (historyInLocalStorage) {
+    historyInLocalStorage.history.forEach(function (h, i) {
+      var history = {
+        dom: createThumbnail(h.areaUrl),
+        areaUrl: h.areaUrl,
+        areaBounds: h.areaBounds,
+        screenBounds: h.screenBounds,
+        address: h.address
+      };
+      historyArray.push(history);
+    });
 
-  renderSavedAreaToWindow(areas);
+    renderSavedAreaToWindow();
+  };
 }
 
 function addSavedAreaToWindow(url, bounds) {
   var elem = createThumbnail(url);
-  areas.push(elem);
-  areaUrls.push(url);
-  areaBounds.push([bounds._sw.lng, bounds._sw.lat, bounds._ne.lng, bounds._ne.lat]);
-  screenBounds.push([currentExportScreenBounds._sw.lng, currentExportScreenBounds._sw.lat, currentExportScreenBounds._ne.lng, currentExportScreenBounds._ne.lat]);
-  if (areas.length > 6) {
-    areas.shift();
-    areaUrls.shift();
-    areaBounds.shift();
-    screenBounds.shift();
+  var history = {
+    dom: elem,
+    areaUrl: url,
+    areaBounds: [bounds._sw.lng, bounds._sw.lat, bounds._ne.lng, bounds._ne.lat],
+    screenBounds: [currentExportScreenBounds._sw.lng, currentExportScreenBounds._sw.lat, currentExportScreenBounds._ne.lng, currentExportScreenBounds._ne.lat],
+    address: ''
+  };
+  historyArray.push(history);
+  if (historyArray.length > 6) {
+    historyArray.shift();
   }
 
   //renderSavedAreaToWindow(areas);
   var center = map.getCenter();
-  reverseGeocoding(center.lng, center.lat, elem);
+  reverseGeocoding(center.lng, center.lat, elem, history);
 }
 
-function renderSavedAreaToWindow(domArray) {
+function renderSavedAreaToWindow() {
   savedAreasWindowInner.textContent = null;
-  domArray.forEach(function (thumbnail, i) {
+  historyArray.forEach(function (h, i) {
+    var thumbnail = h.dom;
     thumbnail.childNodes.forEach(function (node) {
       if (node.nodeName === 'IMG') {
         node.id = 'saved-area-' + i;
         console.log($('#' + node.id));
-        $('#' + node.id).tooltip({ title: addresses[i], container: 'body' });
+        $('#' + node.id).tooltip({ title: h.address, container: 'body' });
       }
     });
     savedAreasWindowInner.appendChild(thumbnail);
   });
-  domArray.forEach(function (thumbnail, i) {
-    $('#' + 'saved-area-' + i).tooltip({ title: addresses[i], container: 'body' });
-  });  
-
-  localStorage.setItem('mable-preview-areas', JSON.stringify({ 'areaUrls': areaUrls, 'areaBounds': areaBounds, 'screenBounds': screenBounds, 'addresses': addresses }));
+  historyArray.forEach(function (h, i) {
+    $('#' + 'saved-area-' + i).tooltip({ title: h.address, container: 'body' });
+  });
 }
 
-function reverseGeocoding(lng, lat, elem) {
+function reverseGeocoding(lng, lat, elem, history) {
   var requestUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + '%2C' + lat + '.json?access_token=' + mapboxgl.accessToken;
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
@@ -145,18 +145,16 @@ function reverseGeocoding(lng, lat, elem) {
         console.log('loaded.');
         break;
       case 3:
-        console.log('interactive... '+xhr.responseText.length+' bytes.');
+        console.log('interactive... ' + xhr.responseText.length + ' bytes.');
         break;
       case 4:
         if( xhr.status == 200 || xhr.status == 304 ) {
           var data = JSON.parse(xhr.responseText);
           console.log('COMPLETE!');
           //addresses.push(data.features[0].text);
-          addresses.push(data.features[0].place_name);
-          if (areas.length > 6) {
-            addresses.shift();
-          }
-          renderSavedAreaToWindow(areas);
+          history.address = data.features[0].place_name;
+          localStorage.setItem('mable-preview-history', JSON.stringify({ 'history': historyArray }));
+          renderSavedAreaToWindow();
         } else {
           console.log('Failed. HttpStatus: ' + xhr.statusText);
         }
