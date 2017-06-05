@@ -83,17 +83,17 @@
         var initOffsets = [
             { x: 0, z: 0 },
             { x: 220, z: 0 },
+            { x: 440, z: 0 },
             { x: 0, z: 220 },
             { x: 220, z: 220 },
-            { x: 440, z: 0 },
             { x: 440, z: 220 },
         ];
         var endOffsets = [
             { x: 0, z: 0 },
             { x: 200, z: 0 },
+            { x: 400, z: 0 },
             { x: 0, z: 200 },
             { x: 200, z: 200 },
-            { x: 400, z: 0 },
             { x: 400, z: 200 },
         ];
         /*var tableImageUrls = [
@@ -104,14 +104,15 @@
             'https://dev.mable.me/osm2svg?bbox=-0.03337685597205109,51.5075570482544,0.06034335202249963,51.56585224021376&width=709&style=road&format=png&bg=1',
             'https://dev.mable.me/osm2svg?bbox=-0.03338291550443273,51.449266838449944,0.06033729248747477,51.507636609708555&width=709&style=road&format=png&bg=1'
         ];*/
-        var tableImageUrls = [
+        /*var tableImageUrls = [
             'img/table1.png',
             'img/table2.png',
             'img/table3.png',
             'img/table4.png',
             'img/table5.png',
             'img/table6.png'
-        ];
+        ];*/
+        var tableImageUrls = [];
         var legsTypes = {
             cylinder: {
                 legsGroup: [],
@@ -132,6 +133,10 @@
 
         var animateBtnId = 'animate-btn';
         var animateBtn = document.getElementById(animateBtnId);
+        
+        JSON.parse(localStorage.getItem('mable-preview-history')).history.forEach(function (h) {
+            tableImageUrls.push(h.areaUrl + '&bg=1');
+        });
 
         animateBtn.onclick = function () {
             animateBtn.classList.add('disabled');

@@ -133,7 +133,7 @@ function setMapView() {
   activateGetStreetsViews();
   document.getElementById(exportAreaId).style.display = 'flex';
   document.getElementById(exportBtnId).style.display = 'flex';
-    document.getElementById('saved-areas-window').style.display = 'flex'; // saveSelectedArea.js
+    document.getElementById('saved-areas-window').style.display = 'flex'; // history.js
   document.getElementById(downloadImgBtnId).classList.add('disabled');
   showBasemap();
   map.dragRotate.disable();
@@ -155,7 +155,7 @@ function setTableView(bounds) {
     deactivateGetStreetsViews();
     document.getElementById(exportAreaId).style.display = 'none';
     document.getElementById(exportBtnId).style.display = 'none';
-    document.getElementById('saved-areas-window').style.display = 'none'; // saveSelectedArea.js
+    document.getElementById('saved-areas-window').style.display = 'none'; // history.js
     document.getElementById(downloadImgBtnId).classList.remove('disabled');
     hideBasemap();
     map.dragRotate.enable();
@@ -308,7 +308,7 @@ function getStreetsPNGInBounds(bounds, doNotSave) {
   });
 
   if (doNotSave === undefined) {
-    addSavedAreaToWindow(imgUrl, bounds); // saveSelectedAreas.js
+    addSavedAreaToWindow(imgUrl, bounds); // historys.js
   }
 
   setTimeout(function () {

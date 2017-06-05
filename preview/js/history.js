@@ -38,6 +38,7 @@ savedAreasWindowInner.onclick = function (e) {
     localStorage.setItem('mable-preview-history', JSON.stringify({ 'history': historyArray }));
 
     renderSavedAreaToWindow();
+    updateBoundsFeatureCollection();
   }
 }
 
@@ -46,6 +47,7 @@ if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') 
 }
 
 map.on('load', function () {
+  getAreasInLocalStorage();
   savedAreasWindow.classList.add('visible');
 });
 map.on('move', function () {
@@ -91,6 +93,7 @@ function getAreasInLocalStorage() {
 
     renderSavedAreaToWindow();
   };
+  initBoundsFeatureCollection();
 }
 
 function addSavedAreaToWindow(url, bounds) {
@@ -119,7 +122,7 @@ function renderSavedAreaToWindow() {
     thumbnail.childNodes.forEach(function (node) {
       if (node.nodeName === 'IMG') {
         node.id = 'saved-area-' + i;
-        console.log($('#' + node.id));
+        //console.log($('#' + node.id));
         $('#' + node.id).tooltip({ title: h.address, container: 'body' });
       }
     });
@@ -128,6 +131,51 @@ function renderSavedAreaToWindow() {
   historyArray.forEach(function (h, i) {
     $('#' + 'saved-area-' + i).tooltip({ title: h.address, container: 'body' });
   });
+}
+
+function initBoundsFeatureCollection() {
+  var fc = boundsToFeature();
+  map.addSource('history', { type: 'geojson', data: fc });
+  map.addLayer({
+    'id': 'history',
+    'type': 'fill',
+    'source': 'history',
+    'layout': {},
+    'paint': {
+      'fill-color': 'rgb(84,208,142)',
+      'fill-opacity': 0.1,
+      'fill-outline-color': 'rgb(84,208,142)'
+    }
+  });
+}
+
+function updateBoundsFeatureCollection() {
+  var fc = boundsToFeature();
+  map.getSource('history').setData(fc);
+}
+
+function boundsToFeature() {
+  var fc = {
+    type: 'FeatureCollection',
+    features: []
+  };
+  historyArray.forEach(function (h, i) {
+    var feature = {
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: boundsArrayToCoordinates(h.areaBounds)
+      }
+    };
+    fc.features.push(feature);
+  });
+
+  //console.log(fc);
+  return fc;
+}
+
+function boundsArrayToCoordinates(boundsArray) {
+  return [[[boundsArray[0], boundsArray[1]], [boundsArray[0], boundsArray[3]], [boundsArray[2], boundsArray[3]], [boundsArray[2], boundsArray[1]], [boundsArray[0], boundsArray[1]]]];
 }
 
 function reverseGeocoding(lng, lat, elem, history) {
@@ -155,6 +203,7 @@ function reverseGeocoding(lng, lat, elem, history) {
           history.address = data.features[0].place_name;
           localStorage.setItem('mable-preview-history', JSON.stringify({ 'history': historyArray }));
           renderSavedAreaToWindow();
+          updateBoundsFeatureCollection();
         } else {
           console.log('Failed. HttpStatus: ' + xhr.statusText);
         }
@@ -164,5 +213,3 @@ function reverseGeocoding(lng, lat, elem, history) {
   xhr.open('GET', requestUrl, false);
   xhr.send();
 }
-
-getAreasInLocalStorage();
