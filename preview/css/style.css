@@ -236,6 +236,7 @@ button.disabled {
   margin-right: 5px;
   transition: all .4s;
   position: relative;
+  pointer-events: initial;
 }
 .savedarea-thumbnail > img {
   width: 100%;
