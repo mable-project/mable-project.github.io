@@ -234,7 +234,7 @@ section {
   padding: 100px 0;
 }
 section h2 {
-  font-size: 50px;
+  font-size: 42px;
 }
 section.download {
   padding: 150px 0;
@@ -242,7 +242,7 @@ section.download {
 }
 section.download h2 {
   margin-top: 0;
-  font-size: 50px;
+  font-size: 42px;
 }
 section.download .badges .badge-link {
   display: block;
@@ -343,7 +343,7 @@ section.cta .cta-content h2 {
   margin-bottom: 25px;
   color: white;
   max-width: 600px;
-  font-size: 50px;
+  font-size: 42px;
 }
 @media (min-width: 768px) {
   section.cta .cta-content h2 {

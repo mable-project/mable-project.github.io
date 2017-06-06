@@ -45,7 +45,7 @@ i18next.init({
         'preview-button': 'Mable Preview を試す（無料）',
         'video-title': '紙でも、<br>スクリーンでもない地図',
         'video-button': 'YouTube でイメージビデオを観る',
-        'features-title': 'オープンなクリエイティビティで、<br>作る楽しさをみんなの手に',
+        'features-title': 'オープンなクリエイティビティを組み合わせて、<br>作る楽しさをみんなの手に',
         'features-description': '地図をレーザーカッターで焼き付けるだけではない、オープンなプロセスと技術を使って製造/再現可能なプロダクトを提案しています。',
         'features-section1-title': 'グリッド システム',
         'features-section1-description': 'Mable は 500 x 500 mm を 1 ユニットとし、それらを組み合わせることで、柔軟なレイアウトに対応します。',
