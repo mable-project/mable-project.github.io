@@ -294,7 +294,7 @@ function getStreetsPNGInBounds(bounds, doNotSave) {
 
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var imgUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&credit=no' + osm2pngUrlParamsText;
+  var imgUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&credit=no' + osm2pngUrlParamsText;
 
   map.addSource(streetsLayerProps.id, {
     'type': 'image',
@@ -408,7 +408,7 @@ function getSVG() {
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=800&style=road&format=svg';
+  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=svg';
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     switch ( xhr.readyState ) {
