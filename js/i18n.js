@@ -43,7 +43,7 @@ i18next.init({
         'preview-title': '好きな場所を好きな範囲で切り取ろう！',
         'preview-description': 'Mable Preview にアクセスすれば、カメラのシャッターを切るように道路線を切り取って、テーブルに焼き付けた完成イメージをすぐに確認できます。',
         'preview-button': 'Mable Preview を試す（無料）',
-        'video-title': '紙でも、<br>スクリーンでもない<br>地図',
+        'video-title': '紙でも、<br>スクリーンでもない地図',
         'video-button': 'YouTube でイメージビデオを観る',
         'features-title': 'オープンなクリエイティビティで、<br>作る楽しさをみんなの手に',
         'features-description': '地図をレーザーカッターで焼き付けるだけではない、オープンなプロセスと技術を使って製造/再現可能なプロダクトを提案しています。',
