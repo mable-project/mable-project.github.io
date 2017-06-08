@@ -142,10 +142,14 @@ header {
     /*min-height: auto;*/
     min-height: 100%;
     overflow-y: hidden;
-    background: url("../img/bg.jpg");
     background: url("../img/bg.jpg") no-repeat fixed center;
-    -webkit-background-size: cover; 
+    -webkit-background-size: cover;
     background-size: cover;
+    @media (max-width: 768px) { // iOS Safari 対応
+        background: url("../img/bg.jpg") no-repeat scroll center top;
+        -webkit-background-size: auto 1024px;
+        background-size: auto 1024px;
+    }
     color: white;
     .header-content {
         text-align: center;

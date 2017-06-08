@@ -157,11 +157,17 @@ header {
   /*min-height: auto;*/
   min-height: 100%;
   overflow-y: hidden;
-  background: url("../img/bg.jpg");
   background: url("../img/bg.jpg") no-repeat fixed center;
   -webkit-background-size: cover;
   background-size: cover;
   color: white;
+}
+@media (max-width: 768px) {
+  header {
+    background: url("../img/bg.jpg") no-repeat scroll center top;
+    -webkit-background-size: auto 1024px;
+    background-size: auto 1024px;
+  }
 }
 header .header-content {
   text-align: center;
