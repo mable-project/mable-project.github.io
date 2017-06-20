@@ -458,7 +458,7 @@ function getSVG() {
 
 // add streets into map with our OSM API
 function getTablePNG() {
-  document.getElementById(downloadImgBtnId).innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download<span class="caret"></span>';
+  document.getElementById(downloadImgBtnId).innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download <span class="caret"></span>';
   var imgSrc;
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
@@ -468,7 +468,7 @@ function getTablePNG() {
   xhr.open('GET', requestUrl, true);
   xhr.responseType = "arraybuffer";
   xhr.onload = function() {
-    document.getElementById(downloadImgBtnId).innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download<span class="caret"></span>';
+    document.getElementById(downloadImgBtnId).innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download <span class="caret"></span>';
     downloadImage(this.response, requestUrl, 'image/png');
   };
   xhr.send();
