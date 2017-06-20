@@ -12,6 +12,8 @@ var exportAreaInnerId = 'export-area-inner';
 var exportBtnId = 'export-btn';
 var switchViewBtnId = 'switch-view-btn';
 var downloadImgBtnId = 'download-img-btn';
+var downloadPNGBtnId = 'download-png-btn';
+var downloadSVGBtnId = 'download-svg-btn';
 
 // background image
 var bgType = 'table'; // table | coaster
@@ -86,9 +88,22 @@ document.getElementById(switchViewBtnId).onclick = function () {
   }
 };
 
-// [DOWNLOAD] button onclick event
-document.getElementById(downloadImgBtnId).onclick = function () {
+// [DOWNLOAD] > [Preview Image (PNG)] button onclick event
+document.getElementById(downloadPNGBtnId).onclick = function () {
+  var hash = location.hash;
   getTablePNG();
+  setTimeout(function () {
+    location.hash = hash;
+  }, 500);
+};
+
+// [DOWNLOAD] > [Vector Image (SVG)] button onclick event
+document.getElementById(downloadSVGBtnId).onclick = function () {
+  var hash = location.hash;
+  alert('We are currently developing this feature, coming soon! Please feel free to contact us if you want to buy the data.');
+  setTimeout(function () {
+    location.hash = hash;
+  }, 500);
 };
 
 // get background type from URL hash
@@ -443,7 +458,7 @@ function getSVG() {
 
 // add streets into map with our OSM API
 function getTablePNG() {
-  document.getElementById(downloadImgBtnId).innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download';
+  document.getElementById(downloadImgBtnId).innerHTML = '<img src="img/download.svg" style="height:11px;width:13.78px;"> Download<span class="caret"></span>';
   var imgSrc;
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
@@ -453,7 +468,7 @@ function getTablePNG() {
   xhr.open('GET', requestUrl, true);
   xhr.responseType = "arraybuffer";
   xhr.onload = function() {
-    document.getElementById(downloadImgBtnId).innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download';
+    document.getElementById(downloadImgBtnId).innerHTML = '<i class="fa fa-cloud-download" aria-hidden="true"></i> Download<span class="caret"></span>';
     downloadImage(this.response, requestUrl, 'image/png');
   };
   xhr.send();

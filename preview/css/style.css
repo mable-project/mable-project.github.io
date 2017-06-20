@@ -274,6 +274,22 @@ i.delete-thumbnail-icon:hover {
   display: inline;
 }
 
+/* download menu */
+.dropdown-menu {
+  border: none;
+  padding: 10px;
+  left: 12px;
+}
+@media (min-width: 768px) {
+  .navbar-right .dropdown-menu {
+    right: 58px;
+    left: auto;
+  }
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    background-color: rgba(84,208,142,0.3);
+}
+
 /* override mapbox-gl.css */
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
   margin: 12px 12px 0 0;

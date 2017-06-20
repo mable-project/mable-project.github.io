@@ -73,11 +73,18 @@
                         <button id='export-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-globe" aria-hidden="true"></i> Get Streets</button>
                     </li>-->
                     <li>
-                        <button id='download-img-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</button>
-                    </li>
-                    <li>
                         <button id='switch-view-btn' class="btn btn-outline btn-xl btn-mable-preview"><i class="fa fa-exchange" aria-hidden="true"></i> Switch View</button>
                     </li>
+                    <button id="download-img-btn" class="btn btn-outline btn-xl btn-mable-preview disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-cloud-download" aria-hidden="true"></i> Download<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="download-img-dropdownmenu">
+                        <li><a id="download-png-btn" href="#">Preview Image (PNG)</a></li>
+                        <li><a id="download-svg-btn" href="#">Vector Image (SVG)</a></li>
+                    </ul>
+                    <!--<li>
+                        <button id='download-img-btn' class="btn btn-outline btn-xl btn-mable-preview disabled"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</button>
+                    </li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
