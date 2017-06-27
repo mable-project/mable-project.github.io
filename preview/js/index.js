@@ -28,6 +28,10 @@ if (bgType === 'table') {
   backgroundImageUrl = 'img/coaster-bg.png';
   osm2pngUrlParamsText = '&format=png&mask=2';
   previewUrlParamsText = '&format=png&bg=2&mask=2';
+} else if (bgType === 'none') {
+  backgroundImageUrl = '';
+  osm2pngUrlParamsText = '&format=png';
+  previewUrlParamsText = '&format=png';
 }
 
 // props to initialize this app
