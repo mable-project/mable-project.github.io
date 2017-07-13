@@ -206,10 +206,20 @@ function updateUrlMapProps(isPreview) {
     var center = map.getCenter();
     var zoom = map.getZoom();
     location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng;
+    updateShareButtonLinkUrl(encodeURIComponent(location.hash));
   }
   if (isPreview === true) {
     location.hash= 'map=' + zoom + '/' + center.lat + '/' + center.lng + '&bgType=' + bgType + '&preview';
+    updateShareButtonLinkUrl(encodeURIComponent(location.hash));
   }
+}
+
+function updateShareButtonLinkUrl(hash) {
+  document.querySelectorAll('.resp-sharing-button__link').forEach(function(shareButton) {
+    var url = shareButton.href.split('%23')[0];
+    console.log(url);
+    shareButton.href = url + hash;
+  });
 }
 
 // check longitude if not exceeded |180|
