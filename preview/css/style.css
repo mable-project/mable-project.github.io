@@ -348,7 +348,7 @@ i.delete-thumbnail-icon:hover {
 .resp-sharing-button {
   border-radius: 18px;
   transition: 25ms ease-out;
-  padding: 0.32em 0.6em;
+  padding: 0.32em 0.54em;
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif
 }
 
