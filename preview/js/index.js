@@ -6,6 +6,8 @@ var dragRotateHandler;
 var currentExportBounds;
 var currentExportScreenBounds;
 var mableAPIDomain = 'https://dev.mable.me';
+var mableRasterAPIPath = '/mapi/v2/mapart/raster.png';
+var mableVectorAPIPath = '/mapi/v2/mapart/vector.svg';
 var gotStreets = false;
 var exportAreaId = 'export-area';
 var exportAreaInnerId = 'export-area-inner';
@@ -18,20 +20,22 @@ var downloadSVGBtnId = 'download-svg-btn';
 // background image
 var bgType = 'table'; // table | coaster
 var backgroundImageUrl, osm2pngUrlParamsText, previewUrlParamsText;
+var isCustomStyle = false;
+var customStyleParamsText = '';
 getBackgroundTypefromUrl();
 document.getElementById(exportAreaInnerId).classList.add(bgType);
 if (bgType === 'table') {
   backgroundImageUrl = 'img/table-bg.png';
-  osm2pngUrlParamsText = '&format=png';
-  previewUrlParamsText = '&format=png&bg=1';
+  osm2pngUrlParamsText = '';
+  previewUrlParamsText = '&bg=1';
 } else if (bgType === 'coaster') {
   backgroundImageUrl = 'img/coaster-bg.png';
-  osm2pngUrlParamsText = '&format=png&mask=2';
-  previewUrlParamsText = '&format=png&bg=2&mask=2';
+  osm2pngUrlParamsText = '&mask=2';
+  previewUrlParamsText = '&bg=2&mask=2';
 } else if (bgType === 'none') {
   backgroundImageUrl = '';
-  osm2pngUrlParamsText = '&format=png';
-  previewUrlParamsText = '&format=png';
+  osm2pngUrlParamsText = '';
+  previewUrlParamsText = '';
 }
 
 // props to initialize this app
@@ -323,7 +327,7 @@ function getStreetsPNGInBounds(bounds, doNotSave) {
 
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var imgUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&credit=no' + osm2pngUrlParamsText;
+  var imgUrl = mableAPIDomain + mableRasterAPIPath + '?' + bboxParamText + '&width=709&style=road&credit=no' + osm2pngUrlParamsText + customStyleParamsText;
 
   map.addSource(streetsLayerProps.id, {
     'type': 'image',
@@ -437,7 +441,7 @@ function getSVG() {
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road&format=svg';
+  var requestUrl = mableAPIDomain + mableVectorAPIPath + '?' + bboxParamText + '&width=709&style=road' + customStyleParamsText;
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     switch ( xhr.readyState ) {
@@ -477,7 +481,7 @@ function getTablePNG() {
   var bounds = currentExportBounds;
   var bboxParamText = 'bbox=' + bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
   var bboxCoordinates = [[bounds._sw.lng, bounds._ne.lat], [bounds._ne.lng, bounds._ne.lat], [bounds._ne.lng, bounds._sw.lat], [bounds._sw.lng, bounds._sw.lat]];
-  var requestUrl = mableAPIDomain + '/osm2svg?' + bboxParamText + '&width=709&style=road' + previewUrlParamsText;
+  var requestUrl = mableAPIDomain + mableRasterAPIPath + '?' + bboxParamText + '&width=709&style=road' + previewUrlParamsText + customStyleParamsText;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', requestUrl, true);
   xhr.responseType = "arraybuffer";
@@ -500,6 +504,18 @@ function downloadImage(content, url, type) {
   a.download = fileName;
   a.click();
   window.URL.revokeObjectURL(url);
+}
+
+// set a custom style for street lines
+function setCustomStyle(r, g, b, size) {
+  isCustomStyle = true;
+  customStyleParamsText = '&custom_style=' + r + ',' + g + ',' + b + '%7C' + size;
+}
+
+// remove a custom style for street lines
+function removeCustomStyle() {
+  isCustomStyle = false;
+  customStyleParamsText = '';
 }
 
 // add 3D buildings on a map
